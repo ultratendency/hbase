@@ -301,7 +301,7 @@ public class MyHBaseIntegrationTest {
 
     @Test
         public void testInsert() throws Exception {
-       	 HTableInterface table = utility.createTable(Bytes.toBytes("MyTest"), CF);
+       	 Table table = utility.createTable(Bytes.toBytes("MyTest"), CF);
        	 HBaseTestObj obj = new HBaseTestObj();
        	 obj.setRowKey("ROWKEY-1");
        	 obj.setData1("DATA-1");
