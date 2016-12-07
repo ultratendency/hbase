@@ -81,7 +81,7 @@ public class Append extends Mutation {
    */
   public Append(Append a) {
     this.row = a.getRow();
-    this.ts = a.getTimeStamp();
+    this.ts = a.getTimestamp();
     this.familyMap.putAll(a.getFamilyCellMap());
     for (Map.Entry<String, byte[]> entry : a.getAttributesMap().entrySet()) {
       this.setAttribute(entry.getKey(), entry.getValue());

@@ -90,7 +90,7 @@ public class TestPut {
     assertTrue(cell0.getValueArray()     == value0);
 
     // Verify timestamp
-    assertTrue(cell0.getTimestamp()      == put.getTimeStamp());
+    assertTrue(cell0.getTimestamp()      == put.getTimestamp());
 
     // Verify the cell of family:qualifier1
     Cell cell1 = put.get(family, qualifier1).get(0);

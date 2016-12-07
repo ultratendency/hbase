@@ -2724,7 +2724,7 @@ public class HRegion implements HeapSize, PropagatingConfigurationObserver, Regi
     if(delete.getFamilyCellMap().isEmpty()){
       for(byte [] family : this.htableDescriptor.getFamiliesKeys()){
         // Don't eat the timestamp
-        delete.addFamily(family, delete.getTimeStamp());
+        delete.addFamily(family, delete.getTimestamp());
       }
     } else {
       for(byte [] family : delete.getFamilyCellMap().keySet()) {

@@ -142,7 +142,7 @@ public class TestProtobufUtil {
 
     // append always use the latest timestamp,
     // reset the timestamp to the original mutate
-    mutateBuilder.setTimestamp(append.getTimeStamp());
+    mutateBuilder.setTimestamp(append.getTimestamp());
     assertEquals(mutateBuilder.build(), ProtobufUtil.toMutation(MutationType.APPEND, append));
   }
 
@@ -263,7 +263,7 @@ public class TestProtobufUtil {
     // put value always use the default timestamp if no
     // value level timestamp specified,
     // add the timestamp to the original mutate
-    long timestamp = put.getTimeStamp();
+    long timestamp = put.getTimestamp();
     for (ColumnValue.Builder column:
         mutateBuilder.getColumnValueBuilderList()) {
       for (QualifierValue.Builder qualifier:

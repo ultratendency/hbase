@@ -80,7 +80,7 @@ public class Increment extends Mutation implements Comparable<Row> {
    */
   public Increment(Increment i) {
     this.row = i.getRow();
-    this.ts = i.getTimeStamp();
+    this.ts = i.getTimestamp();
     this.tr = i.getTimeRange();
     this.familyMap.putAll(i.getFamilyCellMap());
     for (Map.Entry<String, byte[]> entry : i.getAttributesMap().entrySet()) {

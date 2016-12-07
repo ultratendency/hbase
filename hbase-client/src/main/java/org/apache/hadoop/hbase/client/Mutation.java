@@ -293,8 +293,20 @@ public abstract class Mutation extends OperationWithAttributes implements Row, C
   /**
    * Method for retrieving the timestamp
    * @return timestamp
+   * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0
+   *     (<a href="https://issues.apache.org/jira/browse/HBASE-13300">HBASE-13300</a>).
+   *     Use {@link #getTimestamp()}.
    */
+  @Deprecated
   public long getTimeStamp() {
+    return this.ts;
+  }
+
+  /**
+   * Method for retrieving the timestamp
+   * @return timestamp
+   */
+  public long getTimestamp() {
     return this.ts;
   }
 

@@ -329,7 +329,7 @@ public class ThriftUtilities {
     TDelete out = new TDelete(ByteBuffer.wrap(in.getRow()));
 
     List<TColumn> columns = new ArrayList<TColumn>();
-    long rowTimestamp = in.getTimeStamp();
+    long rowTimestamp = in.getTimestamp();
     if (rowTimestamp != HConstants.LATEST_TIMESTAMP) {
       out.setTimestamp(rowTimestamp);
     }
