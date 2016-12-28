@@ -66,7 +66,7 @@ class AsyncSingleRequestRpcRetryingCaller<T> {
 
   private final byte[] row;
 
-  private final RegionLocateType locateType;
+  private final RegionLocationType locateType;
 
   private final Callable<T> callable;
 
@@ -89,9 +89,9 @@ class AsyncSingleRequestRpcRetryingCaller<T> {
   private final long startNs;
 
   public AsyncSingleRequestRpcRetryingCaller(HashedWheelTimer retryTimer, AsyncConnectionImpl conn,
-      TableName tableName, byte[] row, RegionLocateType locateType, Callable<T> callable,
-      long pauseNs, int maxRetries, long operationTimeoutNs, long rpcTimeoutNs,
-      int startLogErrorsCnt) {
+                                             TableName tableName, byte[] row, RegionLocationType locateType, Callable<T> callable,
+                                             long pauseNs, int maxRetries, long operationTimeoutNs, long rpcTimeoutNs,
+                                             int startLogErrorsCnt) {
     this.retryTimer = retryTimer;
     this.conn = conn;
     this.tableName = tableName;

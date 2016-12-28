@@ -58,7 +58,7 @@ class AsyncRpcRetryingCallerFactory {
 
     private long rpcTimeoutNs = -1L;
 
-    private RegionLocateType locateType = RegionLocateType.CURRENT;
+    private RegionLocationType locateType = RegionLocationType.CURRENT;
 
     public SingleRequestCallerBuilder<T> table(TableName tableName) {
       this.tableName = tableName;
@@ -86,7 +86,7 @@ class AsyncRpcRetryingCallerFactory {
       return this;
     }
 
-    public SingleRequestCallerBuilder<T> locateType(RegionLocateType locateType) {
+    public SingleRequestCallerBuilder<T> locateType(RegionLocationType locateType) {
       this.locateType = locateType;
       return this;
     }
@@ -246,7 +246,7 @@ class AsyncRpcRetryingCallerFactory {
     /**
      * Short cut for {@code build().start()}.
      */
-    public CompletableFuture<RegionLocateType> start() {
+    public CompletableFuture<RegionLocationType> start() {
       return build().start();
     }
   }

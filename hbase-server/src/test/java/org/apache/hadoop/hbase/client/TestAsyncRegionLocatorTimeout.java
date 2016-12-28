@@ -100,7 +100,7 @@ public class TestAsyncRegionLocatorTimeout {
     SLEEP_MS = 1000;
     long startNs = System.nanoTime();
     try {
-      LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocateType.CURRENT,
+      LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocationType.CURRENT,
         TimeUnit.MILLISECONDS.toNanos(500)).get();
       fail();
     } catch (ExecutionException e) {
@@ -114,7 +114,7 @@ public class TestAsyncRegionLocatorTimeout {
     Thread.sleep(2000);
     // Now the location should be in cache, so we will not visit meta again.
     HRegionLocation loc = LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW,
-      RegionLocateType.CURRENT, TimeUnit.MILLISECONDS.toNanos(500)).get();
+      RegionLocationType.CURRENT, TimeUnit.MILLISECONDS.toNanos(500)).get();
     assertEquals(loc.getServerName(),
       TEST_UTIL.getHBaseCluster().getRegionServer(0).getServerName());
   }

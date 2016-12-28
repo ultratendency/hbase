@@ -131,7 +131,7 @@ class AsyncClientScanner {
         });
   }
 
-  private void openScanner(RegionLocateType locateType) {
+  private void openScanner(RegionLocationType locateType) {
     conn.callerFactory.<OpenScannerResponse> single().table(tableName).row(scan.getStartRow())
         .locateType(locateType).rpcTimeout(rpcTimeoutNs, TimeUnit.NANOSECONDS)
         .operationTimeout(scanTimeoutNs, TimeUnit.NANOSECONDS).action(this::callOpenScanner).call()
@@ -145,7 +145,7 @@ class AsyncClientScanner {
   }
 
   public void start() {
-    openScanner(scan.isReversed() && isEmptyStartRow(scan.getStartRow()) ? RegionLocateType.BEFORE
-        : RegionLocateType.CURRENT);
+    openScanner(scan.isReversed() && isEmptyStartRow(scan.getStartRow()) ? RegionLocationType.BEFORE
+        : RegionLocationType.CURRENT);
   }
 }

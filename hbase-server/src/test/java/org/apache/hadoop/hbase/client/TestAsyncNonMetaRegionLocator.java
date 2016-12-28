@@ -101,7 +101,7 @@ public class TestAsyncNonMetaRegionLocator {
 
   @Test
   public void testNoTable() throws InterruptedException {
-    for (RegionLocateType locateType : RegionLocateType.values()) {
+    for (RegionLocationType locateType : RegionLocationType.values()) {
       try {
         LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, locateType).get();
       } catch (ExecutionException e) {
@@ -114,7 +114,7 @@ public class TestAsyncNonMetaRegionLocator {
   public void testDisableTable() throws IOException, InterruptedException {
     createSingleRegionTable();
     TEST_UTIL.getAdmin().disableTable(TABLE_NAME);
-    for (RegionLocateType locateType : RegionLocateType.values()) {
+    for (RegionLocationType locateType : RegionLocationType.values()) {
       try {
         LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, locateType).get();
       } catch (ExecutionException e) {
@@ -136,13 +136,13 @@ public class TestAsyncNonMetaRegionLocator {
   public void testSingleRegionTable() throws IOException, InterruptedException, ExecutionException {
     createSingleRegionTable();
     ServerName serverName = TEST_UTIL.getRSForFirstRegionInTable(TABLE_NAME).getServerName();
-    for (RegionLocateType locateType : RegionLocateType.values()) {
+    for (RegionLocationType locateType : RegionLocationType.values()) {
       assertLocEquals(EMPTY_START_ROW, EMPTY_END_ROW, serverName,
         LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, locateType).get());
     }
     byte[] randKey = new byte[ThreadLocalRandom.current().nextInt(128)];
     ThreadLocalRandom.current().nextBytes(randKey);
-    for (RegionLocateType locateType : RegionLocateType.values()) {
+    for (RegionLocationType locateType : RegionLocationType.values()) {
       assertLocEquals(EMPTY_START_ROW, EMPTY_END_ROW, serverName,
         LOCATOR.getRegionLocation(TABLE_NAME, randKey, locateType).get());
     }
@@ -182,7 +182,7 @@ public class TestAsyncNonMetaRegionLocator {
       try {
         assertLocEquals(startKeys[i], i == startKeys.length - 1 ? EMPTY_END_ROW : startKeys[i + 1],
           serverNames[i],
-          LOCATOR.getRegionLocation(TABLE_NAME, startKeys[i], RegionLocateType.CURRENT).get());
+          LOCATOR.getRegionLocation(TABLE_NAME, startKeys[i], RegionLocationType.CURRENT).get());
       } catch (InterruptedException | ExecutionException e) {
         throw new RuntimeException(e);
       }
@@ -193,7 +193,7 @@ public class TestAsyncNonMetaRegionLocator {
       try {
         assertLocEquals(startKeys[i], i == startKeys.length - 1 ? EMPTY_END_ROW : startKeys[i + 1],
           serverNames[i],
-          LOCATOR.getRegionLocation(TABLE_NAME, startKeys[i], RegionLocateType.AFTER).get());
+          LOCATOR.getRegionLocation(TABLE_NAME, startKeys[i], RegionLocationType.AFTER).get());
       } catch (InterruptedException | ExecutionException e) {
         throw new RuntimeException(e);
       }
@@ -204,7 +204,7 @@ public class TestAsyncNonMetaRegionLocator {
       n -> IntStream.range(0, endKeys.length).map(i -> endKeys.length - 1 - i).forEach(i -> {
         try {
           assertLocEquals(i == 0 ? EMPTY_START_ROW : endKeys[i - 1], endKeys[i], serverNames[i],
-            LOCATOR.getRegionLocation(TABLE_NAME, endKeys[i], RegionLocateType.BEFORE).get());
+            LOCATOR.getRegionLocation(TABLE_NAME, endKeys[i], RegionLocationType.BEFORE).get());
         } catch (InterruptedException | ExecutionException e) {
           throw new RuntimeException(e);
         }
@@ -216,7 +216,7 @@ public class TestAsyncNonMetaRegionLocator {
     createSingleRegionTable();
     ServerName serverName = TEST_UTIL.getRSForFirstRegionInTable(TABLE_NAME).getServerName();
     HRegionLocation loc =
-        LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocateType.CURRENT).get();
+        LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocationType.CURRENT).get();
     assertLocEquals(EMPTY_START_ROW, EMPTY_END_ROW, serverName, loc);
     ServerName newServerName = TEST_UTIL.getHBaseCluster().getRegionServerThreads().stream()
         .map(t -> t.getRegionServer().getServerName()).filter(sn -> !sn.equals(serverName))
@@ -230,14 +230,14 @@ public class TestAsyncNonMetaRegionLocator {
     }
     // Should be same as it is in cache
     assertSame(loc,
-      LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocateType.CURRENT).get());
+      LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocationType.CURRENT).get());
     LOCATOR.updateCachedLocation(loc, null);
     // null error will not trigger a cache cleanup
     assertSame(loc,
-      LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocateType.CURRENT).get());
+      LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocationType.CURRENT).get());
     LOCATOR.updateCachedLocation(loc, new NotServingRegionException());
     assertLocEquals(EMPTY_START_ROW, EMPTY_END_ROW, newServerName,
-      LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocateType.CURRENT).get());
+      LOCATOR.getRegionLocation(TABLE_NAME, EMPTY_START_ROW, RegionLocationType.CURRENT).get());
   }
 
   // usually locate after will return the same result, so we add a test to make it return different
@@ -249,12 +249,12 @@ public class TestAsyncNonMetaRegionLocator {
     TEST_UTIL.createTable(TABLE_NAME, FAMILY, new byte[][] { splitKey });
     TEST_UTIL.waitTableAvailable(TABLE_NAME);
     HRegionLocation currentLoc =
-        LOCATOR.getRegionLocation(TABLE_NAME, row, RegionLocateType.CURRENT).get();
+        LOCATOR.getRegionLocation(TABLE_NAME, row, RegionLocationType.CURRENT).get();
     ServerName currentServerName = TEST_UTIL.getRSForFirstRegionInTable(TABLE_NAME).getServerName();
     assertLocEquals(EMPTY_START_ROW, splitKey, currentServerName, currentLoc);
 
     HRegionLocation afterLoc =
-        LOCATOR.getRegionLocation(TABLE_NAME, row, RegionLocateType.AFTER).get();
+        LOCATOR.getRegionLocation(TABLE_NAME, row, RegionLocationType.AFTER).get();
     ServerName afterServerName =
         TEST_UTIL.getHBaseCluster().getRegionServerThreads().stream().map(t -> t.getRegionServer())
             .filter(rs -> rs.getOnlineRegions(TABLE_NAME).stream()
@@ -262,6 +262,6 @@ public class TestAsyncNonMetaRegionLocator {
             .findAny().get().getServerName();
     assertLocEquals(splitKey, EMPTY_END_ROW, afterServerName, afterLoc);
 
-    assertSame(afterLoc, LOCATOR.getRegionLocation(TABLE_NAME, row, RegionLocateType.AFTER).get());
+    assertSame(afterLoc, LOCATOR.getRegionLocation(TABLE_NAME, row, RegionLocationType.AFTER).get());
   }
 }

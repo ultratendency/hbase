@@ -28,6 +28,6 @@ import org.apache.hadoop.hbase.classification.InterfaceAudience;
  * </ul>
  */
 @InterfaceAudience.Private
-enum RegionLocateType {
+enum RegionLocationType {
   BEFORE, CURRENT, AFTER
 }

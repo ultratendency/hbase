@@ -444,7 +444,7 @@ class AsyncBatchRpcRetryingCaller<T> {
     }
     CompletableFuture.allOf(actions
         .map(action -> conn.getLocator().getRegionLocation(tableName, action.getAction().getRow(),
-          RegionLocateType.CURRENT, locateTimeoutNs).whenComplete((loc, error) -> {
+          RegionLocationType.CURRENT, locateTimeoutNs).whenComplete((loc, error) -> {
             if (error != null) {
               error = translateException(error);
               if (error instanceof DoNotRetryIOException) {
