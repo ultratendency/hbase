@@ -153,7 +153,7 @@ public class TestCompactedHFilesDischarger {
       assertFalse(file.isCompactedAway());
     }
     compactedfiles = ((HStore) store).getStoreEngine().getStoreFileManager().getCompactedfiles();
-    assertTrue(compactedfiles.size() == 0);
+    assertTrue(compactedfiles.isEmpty());
     
   }
 
@@ -225,7 +225,7 @@ public class TestCompactedHFilesDischarger {
       assertFalse(file.isCompactedAway());
     }
     compactedfiles = ((HStore) store).getStoreEngine().getStoreFileManager().getCompactedfiles();
-    assertTrue(compactedfiles.size() == 0);
+    assertTrue(compactedfiles.isEmpty());
   }
 
   @Test
@@ -333,7 +333,7 @@ public class TestCompactedHFilesDischarger {
       assertFalse(file.isCompactedAway());
     }
     compactedfiles = ((HStore) store).getStoreEngine().getStoreFileManager().getCompactedfiles();
-    assertTrue(compactedfiles.size() == 0);
+    assertTrue(compactedfiles.isEmpty());
   }
 
   protected void countDown() {

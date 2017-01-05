@@ -224,7 +224,7 @@ public class TestReplicationSmallTests extends TestReplicationBase {
         fail("Waited too much time for put replication");
       }
       Result res = htable2.get(get);
-      if (res.size() == 0) {
+      if (res.isEmpty()) {
         LOG.info("Row not available");
         Thread.sleep(SLEEP_TIME);
       } else {
@@ -333,7 +333,7 @@ public class TestReplicationSmallTests extends TestReplicationBase {
 
     for (int i = 0; i < NB_RETRIES; i++) {
       Result res = htable2.get(get);
-      if (res.size() == 0) {
+      if (res.isEmpty()) {
         LOG.info("Row not available");
         Thread.sleep(SLEEP_TIME);
       } else {
@@ -389,7 +389,7 @@ public class TestReplicationSmallTests extends TestReplicationBase {
         fail("Waited too much time for put replication");
       }
       Result res = htable2.get(get);
-      if (res.size() == 0) {
+      if (res.isEmpty()) {
         LOG.info("Row not available");
         Thread.sleep(SLEEP_TIME*i);
       } else {
@@ -544,7 +544,7 @@ public class TestReplicationSmallTests extends TestReplicationBase {
           fail("Waited too much time for put replication");
         }
         Result res = lHtable2.get(get);
-        if (res.size() == 0) {
+        if (res.isEmpty()) {
           LOG.info("Row not available");
           Thread.sleep(SLEEP_TIME);
         } else {
