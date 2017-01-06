@@ -353,7 +353,7 @@ public class TestRowProcessorEndpoint {
         Scan scan = new Scan(row, row);
         scan.addColumn(FAM, COUNTER);
         doScan(region, scan, kvs);
-        counter = kvs.size() == 0 ? 0 :
+        counter = kvs.isEmpty() ? 0 :
           Bytes.toInt(CellUtil.cloneValue(kvs.iterator().next()));
 
         // Assert counter value
