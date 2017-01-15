@@ -517,7 +517,7 @@ public class ThriftUtilities {
    */
   private static void addAttributes(OperationWithAttributes op,
                                     Map<ByteBuffer, ByteBuffer> attributes) {
-    if (attributes == null || attributes.size() == 0) {
+    if (attributes == null || attributes.isEmpty()) {
       return;
     }
     for (Map.Entry<ByteBuffer, ByteBuffer> entry : attributes.entrySet()) {
