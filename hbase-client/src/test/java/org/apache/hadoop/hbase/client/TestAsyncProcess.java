@@ -1517,7 +1517,7 @@ public class TestAsyncProcess {
   }
 
   private static List<Get> makeTimelineGets(byte[]... rows) {
-    List<Get> result = new ArrayList<Get>();
+    List<Get> result = new ArrayList<Get>(rows.length);
     for (byte[] row : rows) {
       Get get = new Get(row);
       get.setConsistency(Consistency.TIMELINE);

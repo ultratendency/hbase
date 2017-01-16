@@ -68,7 +68,7 @@ public final class ReplicationSerDeHelper {
     if (tableCfs == null) {
       return null;
     }
-    List<ReplicationProtos.TableCF> tableCFList = new ArrayList<>();
+    List<ReplicationProtos.TableCF> tableCFList = new ArrayList<>(tableCfs.entrySet().size());
     ReplicationProtos.TableCF.Builder tableCFBuilder =  ReplicationProtos.TableCF.newBuilder();
     for (Map.Entry<TableName, ? extends Collection<String>> entry : tableCfs.entrySet()) {
       tableCFBuilder.clear();
@@ -100,10 +100,12 @@ public final class ReplicationSerDeHelper {
     if (tableCFsConfig == null || tableCFsConfig.trim().length() == 0) {
       return null;
     }
-    List<ReplicationProtos.TableCF> tableCFList = new ArrayList<>();
+
     ReplicationProtos.TableCF.Builder tableCFBuilder = ReplicationProtos.TableCF.newBuilder();
 
     String[] tables = tableCFsConfig.split(";");
+    List<ReplicationProtos.TableCF> tableCFList = new ArrayList<>(tables.length);
+
     for (String tab : tables) {
       // 1 ignore empty table config
       tab = tab.trim();
@@ -217,7 +219,7 @@ public final class ReplicationSerDeHelper {
     Map<TableName, List<String>> tableCFsMap = new HashMap<TableName, List<String>>();
     for (int i = 0, n = tableCFs.length; i < n; i++) {
       ReplicationProtos.TableCF tableCF = tableCFs[i];
-      List<String> families = new ArrayList<>();
+      List<String> families = new ArrayList<>(tableCF.getFamiliesCount() - 1);
       for (int j = 0, m = tableCF.getFamiliesCount(); j < m; j++) {
         families.add(tableCF.getFamilies(j).toStringUtf8());
       }
