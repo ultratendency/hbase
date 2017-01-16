@@ -2169,7 +2169,7 @@ public class MetaTableAccessor {
       Result result;
       while ((result = scanner.next()) != null) {
         String key = Bytes.toString(result.getRow());
-        List<Long> list = new ArrayList<>();
+        List<Long> list = new ArrayList<>(result.rawCells().length);
         for (Cell cell : result.rawCells()) {
           list.add(Bytes.toLong(cell.getQualifierArray(), cell.getQualifierOffset(),
               cell.getQualifierLength()));

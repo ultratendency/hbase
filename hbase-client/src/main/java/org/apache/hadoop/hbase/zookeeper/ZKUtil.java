@@ -746,7 +746,7 @@ public class ZKUtil {
     List<String> nodes =
       ZKUtil.listChildrenAndWatchForNewChildren(zkw, baseNode);
     if (nodes != null) {
-      List<NodeAndData> newNodes = new ArrayList<NodeAndData>();
+      List<NodeAndData> newNodes = new ArrayList<NodeAndData>(nodes.size());
       for (String node : nodes) {
         String nodePath = ZKUtil.joinZNode(baseNode, node);
         byte[] data = ZKUtil.getDataAndWatch(zkw, nodePath);

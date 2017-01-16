@@ -301,8 +301,9 @@ abstract class ReplicationTableBase {
    * @return a list of all the WAL filenames
    */
   protected List<String> readWALsFromResult(Result queue) {
-    List<String> wals = new ArrayList<>();
     Map<byte[], byte[]> familyMap = queue.getFamilyMap(CF_QUEUE);
+    List<String> wals = new ArrayList<>(familyMap.keySet().size());
+
     for (byte[] cQualifier : familyMap.keySet()) {
       // Ignore the meta data fields of the queue
       if (Arrays.equals(cQualifier, COL_QUEUE_OWNER) || Arrays.equals(cQualifier,
