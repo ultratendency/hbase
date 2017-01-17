@@ -171,7 +171,7 @@ public class RedundantKVGenerator {
 
   private List<byte[]> generateRows() {
     // generate prefixes
-    List<byte[]> prefixes = new ArrayList<byte[]>();
+    List<byte[]> prefixes = new ArrayList<byte[]>(numberOfRowPrefixes);
     prefixes.add(new byte[0]);
     for (int i = 1; i < numberOfRowPrefixes; ++i) {
       int prefixLength = averagePrefixLength;
