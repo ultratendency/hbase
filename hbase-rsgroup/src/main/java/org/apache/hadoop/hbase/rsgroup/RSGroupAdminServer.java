@@ -66,8 +66,7 @@ public class RSGroupAdminServer extends RSGroupAdmin {
   private MasterServices master;
   //List of servers that are being moved from one group to another
   //Key=host:port,Value=targetGroup
-  private ConcurrentMap<HostAndPort,String> serversInTransition =
-      new ConcurrentHashMap<HostAndPort, String>();
+  private ConcurrentMap<HostAndPort,String> serversInTransition = new ConcurrentHashMap<>();
   private RSGroupInfoManager RSGroupInfoManager;
 
   public RSGroupAdminServer(MasterServices master,
@@ -127,7 +126,7 @@ public class RSGroupAdminServer extends RSGroupAdmin {
             "Server "+firstServer+" does not have a group.");
       }
       if (RSGroupInfo.DEFAULT_GROUP.equals(srcGrp.getName())) {
-        Set<HostAndPort> onlineServers = new HashSet<HostAndPort>();
+        Set<HostAndPort> onlineServers = new HashSet<>();
         for(ServerName server: master.getServerManager().getOnlineServers().keySet()) {
           onlineServers.add(server.getHostPort());
         }
@@ -184,7 +183,7 @@ public class RSGroupAdminServer extends RSGroupAdmin {
                iter.hasNext(); ) {
             HostAndPort rs = iter.next();
             //get online regions
-            List<HRegionInfo> regions = new LinkedList<HRegionInfo>();
+            List<HRegionInfo> regions = new LinkedList<>();
             for (Map.Entry<HRegionInfo, ServerName> el :
                 master.getAssignmentManager().getRegionStates().getRegionAssignments().entrySet()) {
               if (el.getValue().getHostPort().equals(rs)) {
@@ -369,7 +368,7 @@ public class RSGroupAdminServer extends RSGroupAdmin {
       }
 
       //We balance per group instead of per table
-      List<RegionPlan> plans = new ArrayList<RegionPlan>();
+      List<RegionPlan> plans = new ArrayList<>();
       for(Map.Entry<TableName, Map<ServerName, List<HRegionInfo>>> tableMap:
           getRSGroupAssignmentsByTable(groupName).entrySet()) {
         LOG.info("Creating partial plan for table "+tableMap.getKey()+": "+tableMap.getValue());
@@ -441,10 +440,10 @@ public class RSGroupAdminServer extends RSGroupAdmin {
       HRegionInfo currRegion = entry.getKey();
       if(RSGroupInfo.getTables().contains(currTable)) {
         if(!assignments.containsKey(entry.getKey().getTable())) {
-          assignments.put(currTable, new HashMap<ServerName, List<HRegionInfo>>());
+          assignments.put(currTable, new HashMap<>());
         }
         if(!assignments.get(currTable).containsKey(currServer)) {
-          assignments.get(currTable).put(currServer, new ArrayList<HRegionInfo>());
+          assignments.get(currTable).put(currServer, new ArrayList<>());
         }
         assignments.get(currTable).get(currServer).add(currRegion);
       }
@@ -460,7 +459,7 @@ public class RSGroupAdminServer extends RSGroupAdmin {
     //add all tables that are members of the group
     for(TableName tableName : RSGroupInfo.getTables()) {
       if(assignments.containsKey(tableName)) {
-        result.put(tableName, new HashMap<ServerName, List<HRegionInfo>>());
+        result.put(tableName, new HashMap<>());
         result.get(tableName).putAll(serverMap);
         result.get(tableName).putAll(assignments.get(tableName));
         LOG.debug("Adding assignments for "+tableName+": "+assignments.get(tableName));

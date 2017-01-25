@@ -324,7 +324,7 @@ public class TestDistributedLogSplitting {
 
     private final PerClientRandomNonceGenerator delegate = PerClientRandomNonceGenerator.get();
     private boolean isDups = false;
-    private LinkedList<Long> nonces = new LinkedList<Long>();
+    private LinkedList<Long> nonces = new LinkedList<>();
 
     public void startDups() {
       isDups = true;
@@ -365,7 +365,7 @@ public class TestDistributedLogSplitting {
             (ClusterConnection)TEST_UTIL.getConnection(), ng);
 
     try {
-      List<Increment> reqs = new ArrayList<Increment>();
+      List<Increment> reqs = new ArrayList<>();
       for (RegionServerThread rst : cluster.getLiveRegionServerThreads()) {
         HRegionServer hrs = rst.getRegionServer();
         List<HRegionInfo> hris = ProtobufUtil.getOnlineRegions(hrs.getRSRpcServices());
@@ -688,7 +688,7 @@ public class TestDistributedLogSplitting {
     try {
       final SplitLogManager slm = master.getMasterWalManager().getSplitLogManager();
 
-      Set<HRegionInfo> regionSet = new HashSet<HRegionInfo>();
+      Set<HRegionInfo> regionSet = new HashSet<>();
       HRegionInfo region = null;
       HRegionServer hrs = null;
       ServerName firstFailedServer = null;
@@ -937,7 +937,7 @@ public class TestDistributedLogSplitting {
     try {
       final SplitLogManager slm = master.getMasterWalManager().getSplitLogManager();
 
-      Set<HRegionInfo> regionSet = new HashSet<HRegionInfo>();
+      Set<HRegionInfo> regionSet = new HashSet<>();
       HRegionInfo region = null;
       HRegionServer hrs = null;
       HRegionServer dstRS = null;
@@ -1208,10 +1208,10 @@ public class TestDistributedLogSplitting {
     List<HRegionInfo> regions = ProtobufUtil.getOnlineRegions(hrs.getRSRpcServices());
 
     LOG.info("#regions = " + regions.size());
-    Set<HRegionInfo> tmpRegions = new HashSet<HRegionInfo>();
+    Set<HRegionInfo> tmpRegions = new HashSet<>();
     tmpRegions.add(HRegionInfo.FIRST_META_REGIONINFO);
     master.getMasterWalManager().prepareLogReplay(hrs.getServerName(), tmpRegions);
-    Set<HRegionInfo> userRegionSet = new HashSet<HRegionInfo>();
+    Set<HRegionInfo> userRegionSet = new HashSet<>();
     userRegionSet.addAll(regions);
     master.getMasterWalManager().prepareLogReplay(hrs.getServerName(), userRegionSet);
     boolean isMetaRegionInRecovery = false;
@@ -1585,7 +1585,7 @@ public class TestDistributedLogSplitting {
     htd.addFamily(new HColumnDescriptor(family));
     byte[] value = new byte[edit_size];
 
-    List<HRegionInfo> hris = new ArrayList<HRegionInfo>();
+    List<HRegionInfo> hris = new ArrayList<>();
     for (HRegionInfo region : regions) {
       if (!region.getTable().getNameAsString().equalsIgnoreCase(tname)) {
         continue;

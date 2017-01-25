@@ -74,7 +74,7 @@ public abstract class ClientScanner extends AbstractClientScanner {
    * contain results if this scanner does not have enough partial results to form the complete
    * result.
    */
-  protected final LinkedList<Result> partialResults = new LinkedList<Result>();
+  protected final LinkedList<Result> partialResults = new LinkedList<>();
   /**
    * The row for which we are accumulating partial Results (i.e. the row of the Results stored
    * inside partialResults). Changes to partialResultsRow and partialResults are kept in sync via
@@ -338,7 +338,7 @@ public abstract class ClientScanner extends AbstractClientScanner {
   }
 
   protected void initSyncCache() {
-    cache = new LinkedList<Result>();
+    cache = new LinkedList<>();
   }
 
   protected Result nextWithSyncCache() throws IOException {
@@ -594,7 +594,7 @@ public abstract class ClientScanner extends AbstractClientScanner {
   protected List<Result> getResultsToAddToCache(Result[] resultsFromServer,
       boolean heartbeatMessage) throws IOException {
     int resultSize = resultsFromServer != null ? resultsFromServer.length : 0;
-    List<Result> resultsToAddToCache = new ArrayList<Result>(resultSize);
+    List<Result> resultsToAddToCache = new ArrayList<>(resultSize);
 
     final boolean isBatchSet = scan != null && scan.getBatch() > 0;
     final boolean allowPartials = scan != null && scan.getAllowPartialResults();

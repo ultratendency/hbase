@@ -238,7 +238,7 @@ public class HRegionServer extends HasThread implements
   //true - if open region action in progress
   //false - if close region action in progress
   protected final ConcurrentMap<byte[], Boolean> regionsInTransitionInRS =
-    new ConcurrentSkipListMap<byte[], Boolean>(Bytes.BYTES_COMPARATOR);
+    new ConcurrentSkipListMap<>(Bytes.BYTES_COMPARATOR);
 
   // Cache flushing
   protected MemStoreFlusher cacheFlusher;
@@ -281,7 +281,7 @@ public class HRegionServer extends HasThread implements
    * Map of regions currently being served by this region server. Key is the
    * encoded region name.  All access should be synchronized.
    */
-  protected final Map<String, Region> onlineRegions = new ConcurrentHashMap<String, Region>();
+  protected final Map<String, Region> onlineRegions = new ConcurrentHashMap<>();
 
   /**
    * Map of encoded region names to the DataNode locations they should be hosted on
@@ -293,7 +293,7 @@ public class HRegionServer extends HasThread implements
    * and here we really mean DataNode locations.
    */
   protected final Map<String, InetSocketAddress[]> regionFavoredNodesMap =
-      new ConcurrentHashMap<String, InetSocketAddress[]>();
+      new ConcurrentHashMap<>();
 
   /**
    * Set of regions currently being in recovering state which means it can accept writes(edits from
@@ -321,7 +321,7 @@ public class HRegionServer extends HasThread implements
   // debugging and unit tests.
   private volatile boolean abortRequested;
 
-  ConcurrentMap<String, Integer> rowlocks = new ConcurrentHashMap<String, Integer>();
+  ConcurrentMap<String, Integer> rowlocks = new ConcurrentHashMap<>();
 
   // A state before we go into stopped state.  At this stage we're closing user
   // space regions.
@@ -1314,7 +1314,7 @@ public class HRegionServer extends HasThread implements
     // Wait till all regions are closed before going out.
     int lastCount = -1;
     long previousLogTime = 0;
-    Set<String> closedRegions = new HashSet<String>();
+    Set<String> closedRegions = new HashSet<>();
     boolean interrupted = false;
     try {
       while (!isOnlineRegionsEmpty()) {
@@ -1735,7 +1735,7 @@ public class HRegionServer extends HasThread implements
     createNewReplicationInstance(conf, this, this.fs, logdir, oldLogDir);
 
     // listeners the wal factory will add to wals it creates.
-    final List<WALActionsListener> listeners = new ArrayList<WALActionsListener>();
+    final List<WALActionsListener> listeners = new ArrayList<>();
     listeners.add(new MetricsWAL());
     if (this.replicationSourceHandler != null &&
         this.replicationSourceHandler.getWALActionsListener() != null) {
@@ -2645,7 +2645,7 @@ public class HRegionServer extends HasThread implements
    */
   SortedMap<Long, Region> getCopyOfOnlineRegionsSortedBySize() {
     // we'll sort the regions in reverse
-    SortedMap<Long, Region> sortedRegions = new TreeMap<Long, Region>(
+    SortedMap<Long, Region> sortedRegions = new TreeMap<>(
         new Comparator<Long>() {
           @Override
           public int compare(Long a, Long b) {
@@ -2679,7 +2679,7 @@ public class HRegionServer extends HasThread implements
    * the first N regions being served regardless of load.)
    */
   protected HRegionInfo[] getMostLoadedRegions() {
-    ArrayList<HRegionInfo> regions = new ArrayList<HRegionInfo>();
+    ArrayList<HRegionInfo> regions = new ArrayList<>();
     for (Region r : onlineRegions.values()) {
       if (!r.isAvailable()) {
         continue;
@@ -2877,7 +2877,7 @@ public class HRegionServer extends HasThread implements
    */
   @Override
   public List<Region> getOnlineRegions(TableName tableName) {
-     List<Region> tableRegions = new ArrayList<Region>();
+     List<Region> tableRegions = new ArrayList<>();
      synchronized (this.onlineRegions) {
        for (Region region: this.onlineRegions.values()) {
          HRegionInfo regionInfo = region.getRegionInfo();
@@ -2891,7 +2891,7 @@ public class HRegionServer extends HasThread implements
 
   @Override
   public List<Region> getOnlineRegions() {
-    List<Region> allRegions = new ArrayList<Region>();
+    List<Region> allRegions = new ArrayList<>();
     synchronized (this.onlineRegions) {
       // Return a clone copy of the onlineRegions
       allRegions.addAll(onlineRegions.values());
@@ -2905,7 +2905,7 @@ public class HRegionServer extends HasThread implements
    */
   @Override
   public Set<TableName> getOnlineTables() {
-    Set<TableName> tables = new HashSet<TableName>();
+    Set<TableName> tables = new HashSet<>();
     synchronized (this.onlineRegions) {
       for (Region region: this.onlineRegions.values()) {
         tables.add(region.getTableDesc().getTableName());
@@ -2916,7 +2916,7 @@ public class HRegionServer extends HasThread implements
 
   // used by org/apache/hbase/tmpl/regionserver/RSStatusTmpl.jamon (HBASE-4070).
   public String[] getRegionServerCoprocessors() {
-    TreeSet<String> coprocessors = new TreeSet<String>();
+    TreeSet<String> coprocessors = new TreeSet<>();
     try {
       coprocessors.addAll(getWAL(null).getCoprocessorHost().getCoprocessors());
     } catch (IOException exception) {
@@ -3280,7 +3280,7 @@ public class HRegionServer extends HasThread implements
   // This map will contains all the regions that we closed for a move.
   //  We add the time it was moved as we don't want to keep too old information
   protected Map<String, MovedRegionInfo> movedRegions =
-      new ConcurrentHashMap<String, MovedRegionInfo>(3000);
+      new ConcurrentHashMap<>(3000);
 
   // We need a timeout. If not there is a risk of giving a wrong information: this would double
   //  the number of network calls instead of reducing them.

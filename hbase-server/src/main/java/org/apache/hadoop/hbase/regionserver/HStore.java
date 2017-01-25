@@ -516,14 +516,13 @@ public class HStore implements Store {
 
   private List<StoreFile> openStoreFiles(Collection<StoreFileInfo> files) throws IOException {
     if (files == null || files.isEmpty()) {
-      return new ArrayList<StoreFile>();
+      return new ArrayList<>();
     }
     // initialize the thread pool for opening store files in parallel..
     ThreadPoolExecutor storeFileOpenerThreadPool =
       this.region.getStoreFileOpenAndCloseThreadPool("StoreFileOpenerThread-" +
           this.getColumnFamilyName());
-    CompletionService<StoreFile> completionService =
-      new ExecutorCompletionService<StoreFile>(storeFileOpenerThreadPool);
+    CompletionService<StoreFile> completionService = new ExecutorCompletionService<>(storeFileOpenerThreadPool);
 
     int totalValidStoreFile = 0;
     for (final StoreFileInfo storeFileInfo: files) {
@@ -538,7 +537,7 @@ public class HStore implements Store {
       totalValidStoreFile++;
     }
 
-    ArrayList<StoreFile> results = new ArrayList<StoreFile>(files.size());
+    ArrayList<StoreFile> results = new ArrayList<>(files.size());
     IOException ioe = null;
     try {
       for (int i = 0; i < totalValidStoreFile; i++) {
@@ -595,7 +594,7 @@ public class HStore implements Store {
 
   @Override
   public void refreshStoreFiles(Collection<String> newFiles) throws IOException {
-    List<StoreFileInfo> storeFiles = new ArrayList<StoreFileInfo>(newFiles.size());
+    List<StoreFileInfo> storeFiles = new ArrayList<>(newFiles.size());
     for (String file : newFiles) {
       storeFiles.add(fs.getStoreFileInfo(getColumnFamilyName(), file));
     }
@@ -612,16 +611,15 @@ public class HStore implements Store {
   private void refreshStoreFilesInternal(Collection<StoreFileInfo> newFiles) throws IOException {
     StoreFileManager sfm = storeEngine.getStoreFileManager();
     Collection<StoreFile> currentFiles = sfm.getStorefiles();
-    if (currentFiles == null) currentFiles = new ArrayList<StoreFile>(0);
+    if (currentFiles == null) currentFiles = new ArrayList<>(0);
 
-    if (newFiles == null) newFiles = new ArrayList<StoreFileInfo>(0);
+    if (newFiles == null) newFiles = new ArrayList<>(0);
 
-    HashMap<StoreFileInfo, StoreFile> currentFilesSet =
-        new HashMap<StoreFileInfo, StoreFile>(currentFiles.size());
+    HashMap<StoreFileInfo, StoreFile> currentFilesSet = new HashMap<>(currentFiles.size());
     for (StoreFile sf : currentFiles) {
       currentFilesSet.put(sf.getFileInfo(), sf);
     }
-    HashSet<StoreFileInfo> newFilesSet = new HashSet<StoreFileInfo>(newFiles);
+    HashSet<StoreFileInfo> newFilesSet = new HashSet<>(newFiles);
 
     Set<StoreFileInfo> toBeAddedFiles = Sets.difference(newFilesSet, currentFilesSet.keySet());
     Set<StoreFileInfo> toBeRemovedFiles = Sets.difference(currentFilesSet.keySet(), newFilesSet);
@@ -633,7 +631,7 @@ public class HStore implements Store {
     LOG.info("Refreshing store files for region " + this.getRegionInfo().getRegionNameAsString()
       + " files to add: " + toBeAddedFiles + " files to remove: " + toBeRemovedFiles);
 
-    Set<StoreFile> toBeRemovedStoreFiles = new HashSet<StoreFile>(toBeRemovedFiles.size());
+    Set<StoreFile> toBeRemovedStoreFiles = new HashSet<>(toBeRemovedFiles.size());
     for (StoreFileInfo sfi : toBeRemovedFiles) {
       toBeRemovedStoreFiles.add(currentFilesSet.get(sfi));
     }
@@ -870,7 +868,7 @@ public class HStore implements Store {
 
         // close each store file in parallel
         CompletionService<Void> completionService =
-          new ExecutorCompletionService<Void>(storeFileCloserThreadPool);
+          new ExecutorCompletionService<>(storeFileCloserThreadPool);
         for (final StoreFile f : result) {
           completionService.submit(new Callable<Void>() {
             @Override
@@ -1174,7 +1172,7 @@ public class HStore implements Store {
     // actually more correct, since memstore get put at the end.
     List<StoreFileScanner> sfScanners = StoreFileScanner.getScannersForStoreFiles(storeFilesToScan,
       cacheBlocks, usePread, isCompaction, false, matcher, readPt, isPrimaryReplicaStore());
-    List<KeyValueScanner> scanners = new ArrayList<KeyValueScanner>(sfScanners.size() + 1);
+    List<KeyValueScanner> scanners = new ArrayList<>(sfScanners.size() + 1);
     scanners.addAll(sfScanners);
     // Then the memstore scanners
     scanners.addAll(memStoreScanners);
@@ -1197,7 +1195,7 @@ public class HStore implements Store {
     }
     List<StoreFileScanner> sfScanners = StoreFileScanner.getScannersForStoreFiles(files,
       cacheBlocks, usePread, isCompaction, false, matcher, readPt, isPrimaryReplicaStore());
-    List<KeyValueScanner> scanners = new ArrayList<KeyValueScanner>(sfScanners.size() + 1);
+    List<KeyValueScanner> scanners = new ArrayList<>(sfScanners.size() + 1);
     scanners.addAll(sfScanners);
     // Then the memstore scanners
     if (memStoreScanners != null) {
@@ -1303,7 +1301,7 @@ public class HStore implements Store {
       // TODO: get rid of this!
       if (!this.conf.getBoolean("hbase.hstore.compaction.complete", true)) {
         LOG.warn("hbase.hstore.compaction.complete is set to false");
-        sfs = new ArrayList<StoreFile>(newFiles.size());
+        sfs = new ArrayList<>(newFiles.size());
         final boolean evictOnClose =
             cacheConf != null? cacheConf.shouldEvictOnClose(): true;
         for (Path newFile : newFiles) {
@@ -1350,7 +1348,7 @@ public class HStore implements Store {
 
   private List<StoreFile> moveCompatedFilesIntoPlace(
       final CompactionRequest cr, List<Path> newFiles, User user) throws IOException {
-    List<StoreFile> sfs = new ArrayList<StoreFile>(newFiles.size());
+    List<StoreFile> sfs = new ArrayList<>(newFiles.size());
     for (Path newFile : newFiles) {
       assert newFile != null;
       final StoreFile sf = moveFileIntoPlace(newFile);
@@ -1380,11 +1378,11 @@ public class HStore implements Store {
   private void writeCompactionWalRecord(Collection<StoreFile> filesCompacted,
       Collection<StoreFile> newFiles) throws IOException {
     if (region.getWAL() == null) return;
-    List<Path> inputPaths = new ArrayList<Path>(filesCompacted.size());
+    List<Path> inputPaths = new ArrayList<>(filesCompacted.size());
     for (StoreFile f : filesCompacted) {
       inputPaths.add(f.getPath());
     }
-    List<Path> outputPaths = new ArrayList<Path>(newFiles.size());
+    List<Path> outputPaths = new ArrayList<>(newFiles.size());
     for (StoreFile f : newFiles) {
       outputPaths.add(f.getPath());
     }
@@ -1480,14 +1478,14 @@ public class HStore implements Store {
     // being in the store's folder) or they may be missing due to a compaction.
 
     String familyName = this.getColumnFamilyName();
-    List<String> inputFiles = new ArrayList<String>(compactionInputs.size());
+    List<String> inputFiles = new ArrayList<>(compactionInputs.size());
     for (String compactionInput : compactionInputs) {
       Path inputPath = fs.getStoreFilePath(familyName, compactionInput);
       inputFiles.add(inputPath.getName());
     }
 
     //some of the input files might already be deleted
-    List<StoreFile> inputStoreFiles = new ArrayList<StoreFile>(compactionInputs.size());
+    List<StoreFile> inputStoreFiles = new ArrayList<>(compactionInputs.size());
     for (StoreFile sf : this.getStorefiles()) {
       if (inputFiles.contains(sf.getPath().getName())) {
         inputStoreFiles.add(sf);
@@ -1495,7 +1493,7 @@ public class HStore implements Store {
     }
 
     // check whether we need to pick up the new files
-    List<StoreFile> outputStoreFiles = new ArrayList<StoreFile>(compactionOutputs.size());
+    List<StoreFile> outputStoreFiles = new ArrayList<>(compactionOutputs.size());
 
     if (pickCompactionFiles) {
       for (StoreFile sf : this.getStorefiles()) {
@@ -1729,7 +1727,7 @@ public class HStore implements Store {
     }
     if (delSfs == null || delSfs.isEmpty()) return;
 
-    Collection<StoreFile> newFiles = new ArrayList<StoreFile>(); // No new files.
+    Collection<StoreFile> newFiles = new ArrayList<>(); // No new files.
     writeCompactionWalRecord(delSfs, newFiles);
     replaceStoreFiles(delSfs, newFiles);
     completeCompaction(delSfs);
@@ -2158,7 +2156,7 @@ public class HStore implements Store {
       this.snapshot = memstore.snapshot();
       this.cacheFlushCount = snapshot.getCellsCount();
       this.cacheFlushSize = snapshot.getDataSize();
-      committedFiles = new ArrayList<Path>(1);
+      committedFiles = new ArrayList<>(1);
     }
 
     @Override
@@ -2174,7 +2172,7 @@ public class HStore implements Store {
       if (this.tempFiles == null || this.tempFiles.isEmpty()) {
         return false;
       }
-      List<StoreFile> storeFiles = new ArrayList<StoreFile>(this.tempFiles.size());
+      List<StoreFile> storeFiles = new ArrayList<>(this.tempFiles.size());
       for (Path storeFilePath : tempFiles) {
         try {
           StoreFile sf = HStore.this.commitFile(storeFilePath, cacheFlushSeqNum, status);
@@ -2232,7 +2230,7 @@ public class HStore implements Store {
     @Override
     public void replayFlush(List<String> fileNames, boolean dropMemstoreSnapshot)
         throws IOException {
-      List<StoreFile> storeFiles = new ArrayList<StoreFile>(fileNames.size());
+      List<StoreFile> storeFiles = new ArrayList<>(fileNames.size());
       for (String file : fileNames) {
         // open the file as a store file (hfile link, etc)
         StoreFileInfo storeFileInfo = fs.getStoreFileInfo(getColumnFamilyName(), file);
@@ -2264,7 +2262,7 @@ public class HStore implements Store {
       if (snapshot == null) {
         return;
       }
-      HStore.this.updateStorefiles(new ArrayList<StoreFile>(0), snapshot.getId());
+      HStore.this.updateStorefiles(new ArrayList<>(0), snapshot.getId());
     }
   }
 
@@ -2415,7 +2413,7 @@ public class HStore implements Store {
             this.getStoreEngine().getStoreFileManager().getCompactedfiles();
         if (compactedfiles != null && compactedfiles.size() != 0) {
           // Do a copy under read lock
-          copyCompactedfiles = new ArrayList<StoreFile>(compactedfiles);
+          copyCompactedfiles = new ArrayList<>(compactedfiles);
         } else {
           if (LOG.isTraceEnabled()) {
             LOG.trace("No compacted files to archive");
@@ -2440,7 +2438,7 @@ public class HStore implements Store {
    */
   private void removeCompactedfiles(Collection<StoreFile> compactedfiles)
       throws IOException {
-    final List<StoreFile> filesToRemove = new ArrayList<StoreFile>(compactedfiles.size());
+    final List<StoreFile> filesToRemove = new ArrayList<>(compactedfiles.size());
     for (final StoreFile file : compactedfiles) {
       synchronized (file) {
         try {

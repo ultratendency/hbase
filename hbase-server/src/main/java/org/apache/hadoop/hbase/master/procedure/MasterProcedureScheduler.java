@@ -71,8 +71,8 @@ public class MasterProcedureScheduler extends AbstractProcedureScheduler {
   private final static TableQueueKeyComparator TABLE_QUEUE_KEY_COMPARATOR =
       new TableQueueKeyComparator();
 
-  private final FairQueue<ServerName> serverRunQueue = new FairQueue<ServerName>();
-  private final FairQueue<TableName> tableRunQueue = new FairQueue<TableName>();
+  private final FairQueue<ServerName> serverRunQueue = new FairQueue<>();
+  private final FairQueue<TableName> tableRunQueue = new FairQueue<>();
 
   private final ServerQueue[] serverBuckets = new ServerQueue[128];
   private NamespaceQueue namespaceMap = null;
@@ -209,7 +209,7 @@ public class MasterProcedureScheduler extends AbstractProcedureScheduler {
     int count = 0;
 
     // Server queues
-    final AvlTreeIterator<ServerQueue> serverIter = new AvlTreeIterator<ServerQueue>();
+    final AvlTreeIterator<ServerQueue> serverIter = new AvlTreeIterator<>();
     for (int i = 0; i < serverBuckets.length; ++i) {
       serverIter.seekFirst(serverBuckets[i]);
       while (serverIter.hasNext()) {
@@ -218,7 +218,7 @@ public class MasterProcedureScheduler extends AbstractProcedureScheduler {
     }
 
     // Table queues
-    final AvlTreeIterator<TableQueue> tableIter = new AvlTreeIterator<TableQueue>(tableMap);
+    final AvlTreeIterator<TableQueue> tableIter = new AvlTreeIterator<>(tableMap);
     while (tableIter.hasNext()) {
       count += tableIter.next().size();
     }
@@ -479,7 +479,7 @@ public class MasterProcedureScheduler extends AbstractProcedureScheduler {
 
     public RegionEvent getRegionEvent(final HRegionInfo regionInfo) {
       if (regionEventMap == null) {
-        regionEventMap = new HashMap<String, RegionEvent>();
+        regionEventMap = new HashMap<>();
       }
       RegionEvent event = regionEventMap.get(regionInfo.getEncodedName());
       if (event == null) {
@@ -1099,7 +1099,7 @@ public class MasterProcedureScheduler extends AbstractProcedureScheduler {
   //  Helper Data Structures
   // ======================================================================
   private static abstract class QueueImpl<TKey extends Comparable<TKey>> extends Queue<TKey> {
-    private final ArrayDeque<Procedure> runnables = new ArrayDeque<Procedure>();
+    private final ArrayDeque<Procedure> runnables = new ArrayDeque<>();
 
     public QueueImpl(TKey key) {
       super(key);

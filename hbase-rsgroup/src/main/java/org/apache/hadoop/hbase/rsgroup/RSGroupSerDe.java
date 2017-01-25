@@ -103,13 +103,11 @@ public class RSGroupSerDe {
   }
 
   public static RSGroupProtos.RSGroupInfo toProtoGroupInfo(RSGroupInfo pojo) {
-    List<HBaseProtos.TableName> tables =
-        new ArrayList<HBaseProtos.TableName>(pojo.getTables().size());
+    List<HBaseProtos.TableName> tables = new ArrayList<>(pojo.getTables().size());
     for(TableName arg: pojo.getTables()) {
       tables.add(ProtobufUtil.toProtoTableName(arg));
     }
-    List<HBaseProtos.ServerName> hostports =
-        new ArrayList<HBaseProtos.ServerName>(pojo.getServers().size());
+    List<HBaseProtos.ServerName> hostports = new ArrayList<>(pojo.getServers().size());
     for(HostAndPort el: pojo.getServers()) {
       hostports.add(HBaseProtos.ServerName.newBuilder()
           .setHostName(el.getHostText())

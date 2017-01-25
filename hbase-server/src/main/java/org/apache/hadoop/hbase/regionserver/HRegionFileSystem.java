@@ -250,7 +250,7 @@ public class HRegionFileSystem {
       return null;
     }
 
-    ArrayList<StoreFileInfo> storeFiles = new ArrayList<StoreFileInfo>(files.length);
+    ArrayList<StoreFileInfo> storeFiles = new ArrayList<>(files.length);
     for (FileStatus status: files) {
       if (validate && !StoreFileInfo.isValid(status)) {
         LOG.warn("Invalid StoreFile: " + status.getPath());
@@ -364,7 +364,7 @@ public class HRegionFileSystem {
     FileStatus[] fds = FSUtils.listStatus(fs, getRegionDir(), new FSUtils.FamilyDirFilter(fs));
     if (fds == null) return null;
 
-    ArrayList<String> families = new ArrayList<String>(fds.length);
+    ArrayList<String> families = new ArrayList<>(fds.length);
     for (FileStatus status: fds) {
       families.add(status.getPath().getName());
     }

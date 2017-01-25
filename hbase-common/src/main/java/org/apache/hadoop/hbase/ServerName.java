@@ -96,7 +96,7 @@ import com.google.common.net.InetAddresses;
    * @see #getVersionedBytes()
    */
   private byte [] bytes;
-  public static final List<ServerName> EMPTY_SERVER_LIST = new ArrayList<ServerName>(0);
+  public static final List<ServerName> EMPTY_SERVER_LIST = new ArrayList<>(0);
 
   protected ServerName(final String hostname, final int port, final long startcode) {
     // Drop the domain is there is one; no need of it in a local cluster.  With it, we get long

@@ -302,7 +302,7 @@ public class TestRestoreSnapshotFromClient {
 
   private Set<String> getFamiliesFromFS(final TableName tableName) throws IOException {
     MasterFileSystem mfs = TEST_UTIL.getMiniHBaseCluster().getMaster().getMasterFileSystem();
-    Set<String> families = new HashSet<String>();
+    Set<String> families = new HashSet<>();
     Path tableDir = FSUtils.getTableDir(mfs.getRootDir(), tableName);
     for (Path regionDir: FSUtils.getRegionDirs(mfs.getFileSystem(), tableDir)) {
       for (Path familyDir: FSUtils.getFamilyDirs(mfs.getFileSystem(), regionDir)) {

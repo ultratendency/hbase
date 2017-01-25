@@ -96,13 +96,13 @@ public class TestFilterListOrOperatorWithBlkCnt {
     scan.setMaxVersions();
     long blocksStart = getBlkAccessCount();
 
-    List<RowRange> ranges1 = new ArrayList<RowRange>();
+    List<RowRange> ranges1 = new ArrayList<>();
     ranges1.add(new RowRange(Bytes.toBytes(10), true, Bytes.toBytes(15), false));
     ranges1.add(new RowRange(Bytes.toBytes(9980), true, Bytes.toBytes(9985), false));
 
     MultiRowRangeFilter filter1 = new MultiRowRangeFilter(ranges1);
 
-    List<RowRange> ranges2 = new ArrayList<RowRange>();
+    List<RowRange> ranges2 = new ArrayList<>();
     ranges2.add(new RowRange(Bytes.toBytes(15), true, Bytes.toBytes(20), false));
     ranges2.add(new RowRange(Bytes.toBytes(9985), true, Bytes.toBytes(9990), false));
 
@@ -151,7 +151,7 @@ public class TestFilterListOrOperatorWithBlkCnt {
       scan.setStopRow(stopRow);
     }
     ResultScanner scanner = ht.getScanner(scan);
-    List<Cell> kvList = new ArrayList<Cell>();
+    List<Cell> kvList = new ArrayList<>();
     Result r;
     while ((r = scanner.next()) != null) {
       for (Cell kv : r.listCells()) {
@@ -163,7 +163,7 @@ public class TestFilterListOrOperatorWithBlkCnt {
 
   private int getResultsSize(Table ht, Scan scan) throws IOException {
     ResultScanner scanner = ht.getScanner(scan);
-    List<Cell> results = new ArrayList<Cell>();
+    List<Cell> results = new ArrayList<>();
     Result r;
     while ((r = scanner.next()) != null) {
       for (Cell kv : r.listCells()) {

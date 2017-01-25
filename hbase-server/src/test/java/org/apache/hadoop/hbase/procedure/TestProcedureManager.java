@@ -64,7 +64,7 @@ public class TestProcedureManager {
     Admin admin = util.getHBaseAdmin();
 
     byte[] result = admin.execProcedureWithRet(SimpleMasterProcedureManager.SIMPLE_SIGNATURE,
-        "mytest", new HashMap<String, String>());
+        "mytest", new HashMap<>());
     assertArrayEquals("Incorrect return data from execProcedure",
       SimpleMasterProcedureManager.SIMPLE_DATA.getBytes(), result);
   }

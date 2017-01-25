@@ -131,7 +131,7 @@ public class RSGroupInfoManagerImpl implements RSGroupInfoManager, ServerListene
     this.master = master;
     this.watcher = master.getZooKeeper();
     this.conn = master.getClusterConnection();
-    prevRSGroups = new HashSet<String>();
+    prevRSGroups = new HashSet<>();
   }
 
   public void init() throws IOException{
@@ -285,7 +285,7 @@ public class RSGroupInfoManagerImpl implements RSGroupInfoManager, ServerListene
   }
 
   private synchronized void refresh(boolean forceOnline) throws IOException {
-    List<RSGroupInfo> groupList = new LinkedList<RSGroupInfo>();
+    List<RSGroupInfo> groupList = new LinkedList<>();
 
     // overwrite anything read from zk, group table is source of truth
     // if online read from GROUP table
@@ -302,14 +302,14 @@ public class RSGroupInfoManagerImpl implements RSGroupInfoManager, ServerListene
     }
 
     // refresh default group, prune
-    NavigableSet<TableName> orphanTables = new TreeSet<TableName>();
+    NavigableSet<TableName> orphanTables = new TreeSet<>();
     for(String entry: master.getTableDescriptors().getAll().keySet()) {
       orphanTables.add(TableName.valueOf(entry));
     }
 
     List<TableName> specialTables;
     if(!master.isInitialized()) {
-      specialTables = new ArrayList<TableName>(4);
+      specialTables = new ArrayList<>(4);
       specialTables.add(AccessControlLists.ACL_TABLE_NAME);
       specialTables.add(TableName.META_TABLE_NAME);
       specialTables.add(TableName.NAMESPACE_TABLE_NAME);
@@ -414,7 +414,7 @@ public class RSGroupInfoManagerImpl implements RSGroupInfoManager, ServerListene
       String groupBasePath = ZKUtil.joinZNode(watcher.znodePaths.baseZNode, rsGroupZNode);
       ZKUtil.createAndFailSilent(watcher, groupBasePath, ProtobufMagic.PB_MAGIC);
 
-      List<ZKUtil.ZKUtilOp> zkOps = new ArrayList<ZKUtil.ZKUtilOp>(newGroupMap.size());
+      List<ZKUtil.ZKUtilOp> zkOps = new ArrayList<>(newGroupMap.size());
       for(String groupName : prevRSGroups) {
         if(!newGroupMap.containsKey(groupName)) {
           String znode = ZKUtil.joinZNode(groupBasePath, groupName);
@@ -451,7 +451,7 @@ public class RSGroupInfoManagerImpl implements RSGroupInfoManager, ServerListene
     }
     try {
       LOG.debug("Reading online RS from zookeeper");
-      List<ServerName> servers = new LinkedList<ServerName>();
+      List<ServerName> servers = new LinkedList<>();
       for (String el: ZKUtil.listChildrenNoWatch(watcher, watcher.znodePaths.rsZNode)) {
         servers.add(ServerName.parseServerName(el));
       }
@@ -462,7 +462,7 @@ public class RSGroupInfoManagerImpl implements RSGroupInfoManager, ServerListene
   }
 
   private List<HostAndPort> getDefaultServers() throws IOException {
-    List<HostAndPort> defaultServers = new LinkedList<HostAndPort>();
+    List<HostAndPort> defaultServers = new LinkedList<>();
     for(ServerName server : getOnlineRS()) {
       HostAndPort hostPort = HostAndPort.fromParts(server.getHostname(), server.getPort());
       boolean found = false;
@@ -510,7 +510,7 @@ public class RSGroupInfoManagerImpl implements RSGroupInfoManager, ServerListene
 
     @Override
     public void run() {
-      List<HostAndPort> prevDefaultServers = new LinkedList<HostAndPort>();
+      List<HostAndPort> prevDefaultServers = new LinkedList<>();
       while(!mgr.master.isAborted() || !mgr.master.isStopped()) {
         try {
           LOG.info("Updating default servers.");
@@ -582,8 +582,8 @@ public class RSGroupInfoManagerImpl implements RSGroupInfoManager, ServerListene
     }
 
     public boolean waitForGroupTableOnline() {
-      final List<HRegionInfo> foundRegions = new LinkedList<HRegionInfo>();
-      final List<HRegionInfo> assignedRegions = new LinkedList<HRegionInfo>();
+      final List<HRegionInfo> foundRegions = new LinkedList<>();
+      final List<HRegionInfo> assignedRegions = new LinkedList<>();
       final AtomicBoolean found = new AtomicBoolean(false);
       final TableStateManager tsm = masterServices.getTableStateManager();
       boolean createSent = false;

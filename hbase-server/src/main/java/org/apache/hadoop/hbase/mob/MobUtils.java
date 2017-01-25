@@ -258,7 +258,7 @@ public final class MobUtils {
       // no file found
       return;
     }
-    List<StoreFile> filesToClean = new ArrayList<StoreFile>();
+    List<StoreFile> filesToClean = new ArrayList<>();
     int deletedFileCount = 0;
     for (FileStatus file : stats) {
       String fileName = file.getPath().getName();
@@ -427,7 +427,7 @@ public final class MobUtils {
   public static Cell createMobRefCell(Cell cell, byte[] fileName, Tag tableNameTag) {
     // Append the tags to the KeyValue.
     // The key is same, the value is the filename of the mob file
-    List<Tag> tags = new ArrayList<Tag>();
+    List<Tag> tags = new ArrayList<>();
     // Add the ref tag as the 1st one.
     tags.add(MobConstants.MOB_REF_TAG);
     // Add the tag of the source table name, this table is where this mob file is flushed
@@ -740,7 +740,7 @@ public final class MobUtils {
     if (maxThreads == 0) {
       maxThreads = 1;
     }
-    final SynchronousQueue<Runnable> queue = new SynchronousQueue<Runnable>();
+    final SynchronousQueue<Runnable> queue = new SynchronousQueue<>();
     ThreadPoolExecutor pool = new ThreadPoolExecutor(1, maxThreads, 60, TimeUnit.SECONDS, queue,
       Threads.newDaemonThreadFactory("MobCompactor"), new RejectedExecutionHandler() {
         @Override
@@ -804,7 +804,7 @@ public final class MobUtils {
     copyOfConf.setFloat(HConstants.HFILE_BLOCK_CACHE_SIZE_KEY, 0f);
     CacheConfig cacheConfig = new CacheConfig(copyOfConf);
     FileStatus[] fileStatus = FSUtils.listStatus(fs, mobFamilyDir);
-    List<StoreFile> storeFileList = new ArrayList<StoreFile>();
+    List<StoreFile> storeFileList = new ArrayList<>();
     for (FileStatus file : fileStatus) {
       storeFileList.add(new StoreFile(fs, file.getPath(), conf, cacheConfig, BloomType.NONE));
     }

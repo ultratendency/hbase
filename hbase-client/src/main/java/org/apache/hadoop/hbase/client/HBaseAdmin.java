@@ -613,7 +613,7 @@ public class HBaseAdmin implements Admin {
    */
   @Override
   public HTableDescriptor[] deleteTables(Pattern pattern) throws IOException {
-    List<HTableDescriptor> failed = new LinkedList<HTableDescriptor>();
+    List<HTableDescriptor> failed = new LinkedList<>();
     for (HTableDescriptor table : listTables(pattern)) {
       try {
         deleteTable(table.getTableName());
@@ -738,7 +738,7 @@ public class HBaseAdmin implements Admin {
 
   @Override
   public HTableDescriptor[] enableTables(Pattern pattern) throws IOException {
-    List<HTableDescriptor> failed = new LinkedList<HTableDescriptor>();
+    List<HTableDescriptor> failed = new LinkedList<>();
     for (HTableDescriptor table : listTables(pattern)) {
       if (isTableDisabled(table.getTableName())) {
         try {
@@ -802,7 +802,7 @@ public class HBaseAdmin implements Admin {
 
   @Override
   public HTableDescriptor[] disableTables(Pattern pattern) throws IOException {
-    List<HTableDescriptor> failed = new LinkedList<HTableDescriptor>();
+    List<HTableDescriptor> failed = new LinkedList<>();
     for (HTableDescriptor table : listTables(pattern)) {
       if (isTableEnabled(table.getTableName())) {
         try {
@@ -1093,8 +1093,7 @@ public class HBaseAdmin implements Admin {
       LOG.info("Table is disabled: " + tableName.getNameAsString());
       return;
     }
-    execProcedure("flush-table-proc", tableName.getNameAsString(),
-      new HashMap<String, String>());
+    execProcedure("flush-table-proc", tableName.getNameAsString(), new HashMap<>());
   }
 
   @Override
@@ -1757,8 +1756,7 @@ public class HBaseAdmin implements Admin {
     Pair<HRegionInfo, ServerName> pair =
       MetaTableAccessor.getRegion(connection, regionName);
     if (pair == null) {
-      final AtomicReference<Pair<HRegionInfo, ServerName>> result =
-        new AtomicReference<Pair<HRegionInfo, ServerName>>(null);
+      final AtomicReference<Pair<HRegionInfo, ServerName>> result = new AtomicReference<>(null);
       final String encodedName = Bytes.toString(regionName);
       MetaTableAccessor.Visitor visitor = new MetaTableAccessor.Visitor() {
         @Override
@@ -1781,7 +1779,7 @@ public class HBaseAdmin implements Admin {
             }
           }
           if (!matched) return true;
-          result.set(new Pair<HRegionInfo, ServerName>(info, sn));
+          result.set(new Pair<>(info, sn));
           return false; // found the region, stop
         }
       };
@@ -1915,7 +1913,7 @@ public class HBaseAdmin implements Admin {
     AdminService.BlockingInterface admin = this.connection.getAdmin(sn);
     HBaseRpcController controller = rpcControllerFactory.newController();
     List<RegionLoad> regionLoads = ProtobufUtil.getRegionLoad(controller, admin, tableName);
-    Map<byte[], RegionLoad> resultMap = new TreeMap<byte[], RegionLoad>(Bytes.BYTES_COMPARATOR);
+    Map<byte[], RegionLoad> resultMap = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for (RegionLoad regionLoad : regionLoads) {
       resultMap.put(regionLoad.getName(), regionLoad);
     }
@@ -2240,7 +2238,7 @@ public class HBaseAdmin implements Admin {
    */
   private HTableDescriptor getTableDescriptorByTableName(TableName tableName)
       throws IOException {
-    List<TableName> tableNames = new ArrayList<TableName>(1);
+    List<TableName> tableNames = new ArrayList<>(1);
     tableNames.add(tableName);
 
     HTableDescriptor[] htdl = getTableDescriptorsByTableName(tableNames);
@@ -2256,7 +2254,7 @@ public class HBaseAdmin implements Admin {
   @Override
   public HTableDescriptor[] getTableDescriptors(List<String> names)
   throws IOException {
-    List<TableName> tableNames = new ArrayList<TableName>(names.size());
+    List<TableName> tableNames = new ArrayList<>(names.size());
     for(String name : names) {
       tableNames.add(TableName.valueOf(name));
     }
@@ -2790,7 +2788,7 @@ public class HBaseAdmin implements Admin {
             .getCompletedSnapshots(getRpcController(),
                 GetCompletedSnapshotsRequest.newBuilder().build())
             .getSnapshotsList();
-        List<SnapshotDescription> result = new ArrayList<SnapshotDescription>(snapshotsList.size());
+        List<SnapshotDescription> result = new ArrayList<>(snapshotsList.size());
         for (HBaseProtos.SnapshotDescription snapshot : snapshotsList) {
           result.add(ProtobufUtil.createSnapshotDesc(snapshot));
         }
@@ -2806,7 +2804,7 @@ public class HBaseAdmin implements Admin {
 
   @Override
   public List<SnapshotDescription> listSnapshots(Pattern pattern) throws IOException {
-    List<SnapshotDescription> matched = new LinkedList<SnapshotDescription>();
+    List<SnapshotDescription> matched = new LinkedList<>();
     List<SnapshotDescription> snapshots = listSnapshots();
     for (SnapshotDescription snapshot : snapshots) {
       if (pattern.matcher(snapshot.getName()).matches()) {
@@ -2827,7 +2825,7 @@ public class HBaseAdmin implements Admin {
       Pattern snapshotNamePattern) throws IOException {
     TableName[] tableNames = listTableNames(tableNamePattern);
 
-    List<SnapshotDescription> tableSnapshots = new LinkedList<SnapshotDescription>();
+    List<SnapshotDescription> tableSnapshots = new LinkedList<>();
     List<SnapshotDescription> snapshots = listSnapshots(snapshotNamePattern);
 
     List<TableName> listOfTableNames = Arrays.asList(tableNames);
@@ -3868,7 +3866,7 @@ public class HBaseAdmin implements Admin {
 
   @Override
   public void drainRegionServers(List<ServerName> servers) throws IOException {
-    final List<HBaseProtos.ServerName> pbServers = new ArrayList<HBaseProtos.ServerName>(servers.size());
+    final List<HBaseProtos.ServerName> pbServers = new ArrayList<>(servers.size());
     for (ServerName server : servers) {
       // Parse to ServerName to do simple validation.
       ServerName.parseServerName(server.toString());
@@ -3893,7 +3891,7 @@ public class HBaseAdmin implements Admin {
       @Override
       public List<ServerName> rpcCall() throws ServiceException {
         ListDrainingRegionServersRequest req = ListDrainingRegionServersRequest.newBuilder().build();
-        List<ServerName> servers = new ArrayList<ServerName>();
+        List<ServerName> servers = new ArrayList<>();
         for (HBaseProtos.ServerName server : master.listDrainingRegionServers(null, req)
             .getServerNameList()) {
           servers.add(ProtobufUtil.toServerName(server));
@@ -3905,7 +3903,7 @@ public class HBaseAdmin implements Admin {
 
   @Override
   public void removeDrainFromRegionServers(List<ServerName> servers) throws IOException {
-    final List<HBaseProtos.ServerName> pbServers = new ArrayList<HBaseProtos.ServerName>(servers.size());
+    final List<HBaseProtos.ServerName> pbServers = new ArrayList<>(servers.size());
     for (ServerName server : servers) {
       pbServers.add(ProtobufUtil.toServerName(server));
     }

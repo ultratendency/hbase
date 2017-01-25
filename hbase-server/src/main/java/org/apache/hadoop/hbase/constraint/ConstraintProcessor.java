@@ -48,7 +48,7 @@ public class ConstraintProcessor extends BaseRegionObserver {
 
   private final ClassLoader classloader;
 
-  private List<? extends Constraint> constraints = new ArrayList<Constraint>();
+  private List<? extends Constraint> constraints = new ArrayList<>();
 
   /**
    * Create the constraint processor.

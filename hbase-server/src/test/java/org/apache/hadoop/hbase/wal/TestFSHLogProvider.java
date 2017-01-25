@@ -193,13 +193,11 @@ public class TestFSHLogProvider {
     final HTableDescriptor htd2 =
         new HTableDescriptor(TableName.valueOf("testLogCleaning2"))
             .addFamily(new HColumnDescriptor("row"));
-    NavigableMap<byte[], Integer> scopes1 = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    NavigableMap<byte[], Integer> scopes1 = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : htd.getFamiliesKeys()) {
       scopes1.put(fam, 0);
     }
-    NavigableMap<byte[], Integer> scopes2 = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    NavigableMap<byte[], Integer> scopes2 = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : htd2.getFamiliesKeys()) {
       scopes2.put(fam, 0);
     }
@@ -275,13 +273,11 @@ public class TestFSHLogProvider {
         new HTableDescriptor(TableName.valueOf("t1")).addFamily(new HColumnDescriptor("row"));
     HTableDescriptor table2 =
         new HTableDescriptor(TableName.valueOf("t2")).addFamily(new HColumnDescriptor("row"));
-    NavigableMap<byte[], Integer> scopes1 = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    NavigableMap<byte[], Integer> scopes1 = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : table1.getFamiliesKeys()) {
       scopes1.put(fam, 0);
     }
-    NavigableMap<byte[], Integer> scopes2 = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    NavigableMap<byte[], Integer> scopes2 = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : table2.getFamiliesKeys()) {
       scopes2.put(fam, 0);
     }
@@ -370,7 +366,7 @@ public class TestFSHLogProvider {
     localConf.set(WALFactory.WAL_PROVIDER, FSHLogProvider.class.getName());
     final WALFactory wals = new WALFactory(localConf, null, currentTest.getMethodName());
     try {
-      final Set<WAL> seen = new HashSet<WAL>(1);
+      final Set<WAL> seen = new HashSet<>(1);
       final Random random = new Random();
       assertTrue("first attempt to add WAL from default provider should work.",
           seen.add(wals.getWAL(Bytes.toBytes(random.nextInt()), null)));

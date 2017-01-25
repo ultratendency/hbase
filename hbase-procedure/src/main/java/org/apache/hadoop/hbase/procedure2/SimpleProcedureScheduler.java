@@ -29,7 +29,7 @@ import org.apache.hadoop.hbase.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class SimpleProcedureScheduler extends AbstractProcedureScheduler {
-  private final ArrayDeque<Procedure> runnables = new ArrayDeque<Procedure>();
+  private final ArrayDeque<Procedure> runnables = new ArrayDeque<>();
 
   @Override
   protected void enqueue(final Procedure procedure, final boolean addFront) {

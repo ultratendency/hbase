@@ -43,7 +43,7 @@ public class ProcedureEventQueue {
   @InterfaceAudience.Private
   public synchronized void suspendProcedure(final Procedure proc) {
     if (waitingProcedures == null) {
-      waitingProcedures = new ArrayDeque<Procedure>();
+      waitingProcedures = new ArrayDeque<>();
     }
     waitingProcedures.addLast(proc);
   }

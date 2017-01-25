@@ -71,7 +71,7 @@ public final class LockProcedure extends Procedure<MasterProcedureEnv>
   // this is for internal working
   private boolean hasLock;
 
-  private final ProcedureEvent<LockProcedure> event = new ProcedureEvent<LockProcedure>(this);
+  private final ProcedureEvent<LockProcedure> event = new ProcedureEvent<>(this);
   // True if this proc acquired relevant locks. This value is for client checks.
   private final AtomicBoolean locked = new AtomicBoolean(false);
   // Last system time (in ms) when client sent the heartbeat.

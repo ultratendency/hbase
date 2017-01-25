@@ -127,7 +127,7 @@ public class TestMajorCompaction {
     // Now delete everything.
     InternalScanner s = r.getScanner(new Scan());
     do {
-      List<Cell> results = new ArrayList<Cell>();
+      List<Cell> results = new ArrayList<>();
       boolean result = s.next(results);
       r.delete(new Delete(CellUtil.cloneRow(results.get(0))));
       if (!result) break;
@@ -140,7 +140,7 @@ public class TestMajorCompaction {
     s = r.getScanner(new Scan());
     int counter = 0;
     do {
-      List<Cell> results = new ArrayList<Cell>();
+      List<Cell> results = new ArrayList<>();
       boolean result = s.next(results);
       if (!result) break;
       counter++;
@@ -170,8 +170,7 @@ public class TestMajorCompaction {
 
   public void majorCompactionWithDataBlockEncoding(boolean inCacheOnly)
       throws Exception {
-    Map<Store, HFileDataBlockEncoder> replaceBlockCache =
-        new HashMap<Store, HFileDataBlockEncoder>();
+    Map<Store, HFileDataBlockEncoder> replaceBlockCache = new HashMap<>();
     for (Store store : r.getStores()) {
       HFileDataBlockEncoder blockEncoder = store.getDataBlockEncoder();
       replaceBlockCache.put(store, blockEncoder);
@@ -451,7 +450,7 @@ public class TestMajorCompaction {
     scan.setReversed(true);
     InternalScanner s = r.getScanner(scan);
     do {
-      List<Cell> results = new ArrayList<Cell>();
+      List<Cell> results = new ArrayList<>();
       boolean result = s.next(results);
       assertTrue(!results.isEmpty());
       r.delete(new Delete(CellUtil.cloneRow(results.get(0))));
@@ -467,7 +466,7 @@ public class TestMajorCompaction {
     s = r.getScanner(scan);
     int counter = 0;
     do {
-      List<Cell> results = new ArrayList<Cell>();
+      List<Cell> results = new ArrayList<>();
       boolean result = s.next(results);
       if (!result) break;
       counter++;

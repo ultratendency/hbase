@@ -285,7 +285,7 @@ class AsyncRpcRetryingCallerFactory {
     }
 
     public <T> AsyncBatchRpcRetryingCaller<T> build() {
-      return new AsyncBatchRpcRetryingCaller<T>(retryTimer, conn, tableName, actions, pauseNs,
+      return new AsyncBatchRpcRetryingCaller<>(retryTimer, conn, tableName, actions, pauseNs,
           maxAttempts, operationTimeoutNs, rpcTimeoutNs, startLogErrorsCnt);
     }
 
@@ -336,7 +336,7 @@ class AsyncRpcRetryingCallerFactory {
     }
 
     public AsyncMasterRequestRpcRetryingCaller<T> build() {
-      return new AsyncMasterRequestRpcRetryingCaller<T>(retryTimer, conn, checkNotNull(callable,
+      return new AsyncMasterRequestRpcRetryingCaller<>(retryTimer, conn, checkNotNull(callable,
         "action is null"), pauseNs, maxAttempts, operationTimeoutNs, rpcTimeoutNs,
           startLogErrorsCnt);
     }

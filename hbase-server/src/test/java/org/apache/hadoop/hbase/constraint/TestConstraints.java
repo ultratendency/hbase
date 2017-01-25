@@ -73,7 +73,7 @@ public class TestConstraints {
     HTableDescriptor desc = new HTableDescriptor(TableName.valueOf("table"));
     Constraints.add(
         desc,
-        new Pair<Class<? extends Constraint>, Configuration>(
+        new Pair<>(
             CheckConfigurationConstraint.class, CheckConfigurationConstraint
                 .getConfiguration()));
 
@@ -84,7 +84,7 @@ public class TestConstraints {
     assertEquals(CheckConfigurationConstraint.class, c.get(0).getClass());
 
     // check to make sure that we overwrite configurations
-    Constraints.add(desc, new Pair<Class<? extends Constraint>, Configuration>(
+    Constraints.add(desc, new Pair<>(
         CheckConfigurationConstraint.class, new Configuration(false)));
 
     try {

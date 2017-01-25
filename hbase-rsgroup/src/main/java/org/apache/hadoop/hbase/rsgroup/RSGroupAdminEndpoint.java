@@ -197,7 +197,7 @@ public class RSGroupAdminEndpoint extends RSGroupAdminService implements Coproce
     try {
       MoveTablesResponse.Builder builder =
           MoveTablesResponse.newBuilder();
-      Set<TableName> tables = new HashSet<TableName>(request.getTableNameList().size());
+      Set<TableName> tables = new HashSet<>(request.getTableNameList().size());
       for(HBaseProtos.TableName tableName: request.getTableNameList()) {
         tables.add(ProtobufUtil.toTableName(tableName));
       }

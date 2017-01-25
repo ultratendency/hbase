@@ -166,8 +166,7 @@ public class TestClassLoading {
     // verify that the coprocessors were loaded
     boolean foundTableRegion=false;
     boolean found1 = true, found2 = true, found2_k1 = true, found2_k2 = true, found2_k3 = true;
-    Map<Region, Set<ClassLoader>> regionsActiveClassLoaders =
-        new HashMap<Region, Set<ClassLoader>>();
+    Map<Region, Set<ClassLoader>> regionsActiveClassLoaders = new HashMap<>();
     MiniHBaseCluster hbase = TEST_UTIL.getHBaseCluster();
     for (Region region:
         hbase.getRegionServer(0).getOnlineRegionsLocalContext()) {
@@ -207,7 +206,7 @@ public class TestClassLoading {
       " of external jar files",
       2, CoprocessorClassLoader.getAllCached().size());
     //check if region active classloaders are shared across all RS regions
-    Set<ClassLoader> externalClassLoaders = new HashSet<ClassLoader>(
+    Set<ClassLoader> externalClassLoaders = new HashSet<>(
       CoprocessorClassLoader.getAllCached());
     for (Map.Entry<Region, Set<ClassLoader>> regionCP : regionsActiveClassLoaders.entrySet()) {
       assertTrue("Some CP classloaders for region " + regionCP.getKey() + " are not cached."
@@ -310,7 +309,7 @@ public class TestClassLoading {
     // add 2 coprocessor by using new htd.addCoprocessor() api
     htd.addCoprocessor(cpName5, new Path(getLocalPath(jarFile5)),
         Coprocessor.PRIORITY_USER, null);
-    Map<String, String> kvs = new HashMap<String, String>();
+    Map<String, String> kvs = new HashMap<>();
     kvs.put("k1", "v1");
     kvs.put("k2", "v2");
     kvs.put("k3", "v3");
@@ -464,8 +463,7 @@ public class TestClassLoading {
    * @return subset of all servers.
    */
   Map<ServerName, ServerLoad> serversForTable(String tableName) {
-    Map<ServerName, ServerLoad> serverLoadHashMap =
-        new HashMap<ServerName, ServerLoad>();
+    Map<ServerName, ServerLoad> serverLoadHashMap = new HashMap<>();
     for(Map.Entry<ServerName,ServerLoad> server:
         TEST_UTIL.getMiniHBaseCluster().getMaster().getServerManager().
             getOnlineServers().entrySet()) {

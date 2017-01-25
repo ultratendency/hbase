@@ -85,7 +85,7 @@ public abstract class TestRSGroupsBase {
     assertTrue(defaultInfo.getServers().size() >= serverCount);
     gAdmin.addRSGroup(groupName);
 
-    Set<HostAndPort> set = new HashSet<HostAndPort>();
+    Set<HostAndPort> set = new HashSet<>();
     for(HostAndPort server: defaultInfo.getServers()) {
       if(set.size() == serverCount) {
         break;
@@ -136,7 +136,7 @@ public abstract class TestRSGroupsBase {
         = getTableServerRegionMap();
     for(TableName tableName : tableServerRegionMap.keySet()) {
       if(!map.containsKey(tableName)) {
-        map.put(tableName, new LinkedList<String>());
+        map.put(tableName, new LinkedList<>());
       }
       for(List<String> subset: tableServerRegionMap.get(tableName).values()) {
         map.get(tableName).addAll(subset);
@@ -153,10 +153,10 @@ public abstract class TestRSGroupsBase {
       for(RegionLoad rl : status.getLoad(serverName).getRegionsLoad().values()) {
         TableName tableName = HRegionInfo.getTable(rl.getName());
         if(!map.containsKey(tableName)) {
-          map.put(tableName, new TreeMap<ServerName, List<String>>());
+          map.put(tableName, new TreeMap<>());
         }
         if(!map.get(tableName).containsKey(serverName)) {
-          map.get(tableName).put(serverName, new LinkedList<String>());
+          map.get(tableName).put(serverName, new LinkedList<>());
         }
         map.get(tableName).get(serverName).add(rl.getNameAsString());
       }

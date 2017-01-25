@@ -145,7 +145,7 @@ public class TestFuzzyRowAndColumnRangeFilter {
 
     byte[] mask = new byte[] {0 , 0, 1, 1, 1, 1, 0, 0, 0, 0};
 
-    Pair<byte[], byte[]> pair = new Pair<byte[], byte[]>(fuzzyKey, mask);
+    Pair<byte[], byte[]> pair = new Pair<>(fuzzyKey, mask);
     FuzzyRowFilter fuzzyRowFilter = new FuzzyRowFilter(Lists.newArrayList(pair));
     ColumnRangeFilter columnRangeFilter = new ColumnRangeFilter(Bytes.toBytes(cqStart), true
             , Bytes.toBytes(4), true);
@@ -163,7 +163,7 @@ public class TestFuzzyRowAndColumnRangeFilter {
     scan.setFilter(filterList);
 
     ResultScanner scanner = hTable.getScanner(scan);
-    List<Cell> results = new ArrayList<Cell>();
+    List<Cell> results = new ArrayList<>();
     Result result;
     long timeBeforeScan = System.currentTimeMillis();
     while ((result = scanner.next()) != null) {

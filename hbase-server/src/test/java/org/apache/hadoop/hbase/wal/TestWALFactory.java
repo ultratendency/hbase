@@ -178,8 +178,7 @@ public class TestWALFactory {
     }
     HTableDescriptor htd = new HTableDescriptor(tableName);
     htd.addFamily(new HColumnDescriptor("column"));
-    NavigableMap<byte[], Integer> scopes = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    NavigableMap<byte[], Integer> scopes = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : htd.getFamiliesKeys()) {
       scopes.put(fam, 0);
     }
@@ -251,8 +250,7 @@ public class TestWALFactory {
                   null,null, false);
       HTableDescriptor htd = new HTableDescriptor(tableName);
       htd.addFamily(new HColumnDescriptor(tableName.getName()));
-      NavigableMap<byte[], Integer> scopes = new TreeMap<byte[], Integer>(
-          Bytes.BYTES_COMPARATOR);
+      NavigableMap<byte[], Integer> scopes = new TreeMap<>(Bytes.BYTES_COMPARATOR);
       for(byte[] fam : htd.getFamiliesKeys()) {
         scopes.put(fam, 0);
       }
@@ -377,8 +375,7 @@ public class TestWALFactory {
 
     HTableDescriptor htd = new HTableDescriptor(tableName);
     htd.addFamily(new HColumnDescriptor(tableName.getName()));
-    NavigableMap<byte[], Integer> scopes = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    NavigableMap<byte[], Integer> scopes = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : htd.getFamiliesKeys()) {
       scopes.put(fam, 0);
     }
@@ -497,8 +494,7 @@ public class TestWALFactory {
     final HTableDescriptor htd =
         new HTableDescriptor(TableName.valueOf("tablename")).addFamily(new HColumnDescriptor(
             "column"));
-    NavigableMap<byte[], Integer> scopes = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    NavigableMap<byte[], Integer> scopes = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : htd.getFamiliesKeys()) {
       scopes.put(fam, 0);
     }
@@ -562,8 +558,7 @@ public class TestWALFactory {
     final HTableDescriptor htd =
         new HTableDescriptor(TableName.valueOf("tablename")).addFamily(new HColumnDescriptor(
             "column"));
-    NavigableMap<byte[], Integer> scopes = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    NavigableMap<byte[], Integer> scopes = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : htd.getFamiliesKeys()) {
       scopes.put(fam, 0);
     }
@@ -629,8 +624,7 @@ public class TestWALFactory {
     long timestamp = System.currentTimeMillis();
     HTableDescriptor htd = new HTableDescriptor(tableName);
     htd.addFamily(new HColumnDescriptor("column"));
-    NavigableMap<byte[], Integer> scopes = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    NavigableMap<byte[], Integer> scopes = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : htd.getFamiliesKeys()) {
       scopes.put(fam, 0);
     }

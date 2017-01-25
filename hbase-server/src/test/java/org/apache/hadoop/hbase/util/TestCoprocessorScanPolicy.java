@@ -212,10 +212,8 @@ public class TestCoprocessorScanPolicy {
   }
 
   public static class ScanObserver extends BaseRegionObserver {
-    private Map<TableName, Long> ttls =
-        new HashMap<TableName, Long>();
-    private Map<TableName, Integer> versions =
-        new HashMap<TableName, Integer>();
+    private Map<TableName, Long> ttls = new HashMap<>();
+    private Map<TableName, Integer> versions = new HashMap<>();
 
     // lame way to communicate with the coprocessor,
     // since it is loaded by a different class loader

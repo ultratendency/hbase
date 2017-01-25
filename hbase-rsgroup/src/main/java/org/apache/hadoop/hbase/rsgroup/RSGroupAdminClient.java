@@ -168,7 +168,7 @@ class RSGroupAdminClient extends RSGroupAdmin {
       List<RSGroupProtos.RSGroupInfo> resp =
           proxy.listRSGroupInfos(null,
               RSGroupAdminProtos.ListRSGroupInfosRequest.newBuilder().build()).getRSGroupInfoList();
-      List<RSGroupInfo> result = new ArrayList<RSGroupInfo>(resp.size());
+      List<RSGroupInfo> result = new ArrayList<>(resp.size());
       for(RSGroupProtos.RSGroupInfo entry: resp) {
         result.add(RSGroupSerDe.toGroupInfo(entry));
       }

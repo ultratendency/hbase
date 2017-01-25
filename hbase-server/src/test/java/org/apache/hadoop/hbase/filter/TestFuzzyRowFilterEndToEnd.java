@@ -133,10 +133,10 @@ public class TestFuzzyRowFilterEndToEnd {
 
     TEST_UTIL.flush();
 
-    List<Pair<byte[], byte[]>> data = new ArrayList<Pair<byte[], byte[]>>();
+    List<Pair<byte[], byte[]>> data = new ArrayList<>();
     byte[] fuzzyKey = Bytes.toBytesBinary("\\x9B\\x00\\x044e");
     byte[] mask = new byte[] { 0, 0, 0, 0, 0 };
-    data.add(new Pair<byte[], byte[]>(fuzzyKey, mask));
+    data.add(new Pair<>(fuzzyKey, mask));
     FuzzyRowFilter filter = new FuzzyRowFilter(data);
 
     Scan scan = new Scan();
@@ -184,10 +184,10 @@ public class TestFuzzyRowFilterEndToEnd {
 
     TEST_UTIL.flush();
 
-    List<Pair<byte[], byte[]>> data =  new ArrayList<Pair<byte[], byte[]>>();
+    List<Pair<byte[], byte[]>> data =  new ArrayList<>();
     byte[] fuzzyKey = Bytes.toBytesBinary("\\x00\\x00\\x044");
     byte[] mask = new byte[] { 1,0,0,0};
-    data.add(new Pair<byte[], byte[]>(fuzzyKey, mask));
+    data.add(new Pair<>(fuzzyKey, mask));
     FuzzyRowFilter filter = new FuzzyRowFilter(data);
     
     Scan scan = new Scan();
@@ -251,7 +251,7 @@ public class TestFuzzyRowFilterEndToEnd {
 
     byte[] mask = new byte[] { 0, 0, 1, 1, 1, 1, 0, 0, 0, 0 };
 
-    List<Pair<byte[], byte[]>> list = new ArrayList<Pair<byte[], byte[]>>();
+    List<Pair<byte[], byte[]>> list = new ArrayList<>();
     for (int i = 0; i < totalFuzzyKeys; i++) {
       byte[] fuzzyKey = new byte[10];
       ByteBuffer buf = ByteBuffer.wrap(fuzzyKey);
@@ -262,7 +262,7 @@ public class TestFuzzyRowFilterEndToEnd {
       }
       buf.putInt(i);
 
-      Pair<byte[], byte[]> pair = new Pair<byte[], byte[]>(fuzzyKey, mask);
+      Pair<byte[], byte[]> pair = new Pair<>(fuzzyKey, mask);
       list.add(pair);
     }
 
@@ -283,7 +283,7 @@ public class TestFuzzyRowFilterEndToEnd {
 
     byte[] mask = new byte[] { 0, 0, 1, 1, 1, 1, 0, 0, 0, 0 };
 
-    List<Pair<byte[], byte[]>> list = new ArrayList<Pair<byte[], byte[]>>();
+    List<Pair<byte[], byte[]>> list = new ArrayList<>();
 
     for (int i = 0; i < totalFuzzyKeys; i++) {
       byte[] fuzzyKey = new byte[10];
@@ -295,7 +295,7 @@ public class TestFuzzyRowFilterEndToEnd {
       }
       buf.putInt(i * 2);
 
-      Pair<byte[], byte[]> pair = new Pair<byte[], byte[]>(fuzzyKey, mask);
+      Pair<byte[], byte[]> pair = new Pair<>(fuzzyKey, mask);
       list.add(pair);
     }
 
@@ -322,7 +322,7 @@ public class TestFuzzyRowFilterEndToEnd {
     HRegion first = regions.get(0);
     first.getScanner(scan);
     RegionScanner scanner = first.getScanner(scan);
-    List<Cell> results = new ArrayList<Cell>();
+    List<Cell> results = new ArrayList<>();
     // Result result;
     long timeBeforeScan = System.currentTimeMillis();
     int found = 0;
@@ -406,8 +406,8 @@ public class TestFuzzyRowFilterEndToEnd {
 
     byte[] mask2 = new byte[] { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 };
 
-    Pair<byte[], byte[]> pair1 = new Pair<byte[], byte[]>(fuzzyKey1, mask1);
-    Pair<byte[], byte[]> pair2 = new Pair<byte[], byte[]>(fuzzyKey2, mask2);
+    Pair<byte[], byte[]> pair1 = new Pair<>(fuzzyKey1, mask1);
+    Pair<byte[], byte[]> pair2 = new Pair<>(fuzzyKey2, mask2);
 
     FuzzyRowFilter fuzzyRowFilter1 = new FuzzyRowFilter(Lists.newArrayList(pair1));
     FuzzyRowFilter fuzzyRowFilter2 = new FuzzyRowFilter(Lists.newArrayList(pair2));
@@ -424,7 +424,7 @@ public class TestFuzzyRowFilterEndToEnd {
     scan.setFilter(filterList);
 
     ResultScanner scanner = hTable.getScanner(scan);
-    List<Cell> results = new ArrayList<Cell>();
+    List<Cell> results = new ArrayList<>();
     Result result;
     long timeBeforeScan = System.currentTimeMillis();
     while ((result = scanner.next()) != null) {

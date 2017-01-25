@@ -232,7 +232,7 @@ public class TestRegionRebalancing {
   }
 
   private List<HRegionServer> getOnlineRegionServers() {
-    List<HRegionServer> list = new ArrayList<HRegionServer>();
+    List<HRegionServer> list = new ArrayList<>();
     for (JVMClusterUtil.RegionServerThread rst :
         UTIL.getHBaseCluster().getRegionServerThreads()) {
       if (rst.getRegionServer().isOnline()) {

@@ -1325,7 +1325,7 @@ public class TestBlockEvictionFromClient {
 
   private static class MultiGetThread extends Thread {
     private final Table table;
-    private final List<Get> gets = new ArrayList<Get>();
+    private final List<Get> gets = new ArrayList<>();
     public MultiGetThread(Table table) {
       this.table = table;
     }
@@ -1561,7 +1561,7 @@ public class TestBlockEvictionFromClient {
     static final AtomicInteger countOfGets = new AtomicInteger(0);
     static final AtomicBoolean waitForGets = new AtomicBoolean(false);
     static final AtomicBoolean throwException = new AtomicBoolean(false);
-    private static final AtomicReference<CountDownLatch> cdl = new AtomicReference<CountDownLatch>(
+    private static final AtomicReference<CountDownLatch> cdl = new AtomicReference<>(
         new CountDownLatch(0));
 
     @Override

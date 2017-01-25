@@ -144,7 +144,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
   boolean authorizationEnabled;
 
   // Add to this list if there are any reserved tag types
-  private static ArrayList<Byte> RESERVED_VIS_TAG_TYPES = new ArrayList<Byte>();
+  private static ArrayList<Byte> RESERVED_VIS_TAG_TYPES = new ArrayList<>();
   static {
     RESERVED_VIS_TAG_TYPES.add(TagType.VISIBILITY_TAG_TYPE);
     RESERVED_VIS_TAG_TYPES.add(TagType.VISIBILITY_EXP_SERIALIZATION_FORMAT_TAG_TYPE);
@@ -327,7 +327,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
       return;
     }
     // TODO this can be made as a global LRU cache at HRS level?
-    Map<String, List<Tag>> labelCache = new HashMap<String, List<Tag>>();
+    Map<String, List<Tag>> labelCache = new HashMap<>();
     for (int i = 0; i < miniBatchOp.size(); i++) {
       Mutation m = miniBatchOp.getOperation(i);
       CellVisibility cellVisibility = null;
@@ -340,7 +340,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
       }
       boolean sanityFailure = false;
       boolean modifiedTagFound = false;
-      Pair<Boolean, Tag> pair = new Pair<Boolean, Tag>(false, null);
+      Pair<Boolean, Tag> pair = new Pair<>(false, null);
       for (CellScanner cellScanner = m.cellScanner(); cellScanner.advance();) {
         pair = checkForReservedVisibilityTagPresence(cellScanner.current(), pair);
         if (!pair.getFirst()) {
@@ -380,7 +380,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
             }
           }
           if (visibilityTags != null) {
-            List<Cell> updatedCells = new ArrayList<Cell>();
+            List<Cell> updatedCells = new ArrayList<>();
             for (CellScanner cellScanner = m.cellScanner(); cellScanner.advance();) {
               Cell cell = cellScanner.current();
               List<Tag> tags = CellUtil.getTags(cell);
@@ -426,7 +426,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
     }
     // The check for checkForReservedVisibilityTagPresence happens in preBatchMutate happens.
     // It happens for every mutation and that would be enough.
-    List<Tag> visibilityTags = new ArrayList<Tag>();
+    List<Tag> visibilityTags = new ArrayList<>();
     if (cellVisibility != null) {
       String labelsExp = cellVisibility.getExpression();
       try {
@@ -473,7 +473,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
   private Pair<Boolean, Tag> checkForReservedVisibilityTagPresence(Cell cell,
       Pair<Boolean, Tag> pair) throws IOException {
     if (pair == null) {
-      pair = new Pair<Boolean, Tag>(false, null);
+      pair = new Pair<>(false, null);
     } else {
       pair.setFirst(false);
       pair.setSecond(null);
@@ -781,7 +781,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
         new VisibilityControllerNotReadyException("VisibilityController not yet initialized!"),
         response);
     } else {
-      List<byte[]> labels = new ArrayList<byte[]>(visLabels.size());
+      List<byte[]> labels = new ArrayList<>(visLabels.size());
       try {
         if (authorizationEnabled) {
           checkCallingUserAuth();
@@ -843,7 +843,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
         response);
     } else {
       byte[] user = request.getUser().toByteArray();
-      List<byte[]> labelAuths = new ArrayList<byte[]>(auths.size());
+      List<byte[]> labelAuths = new ArrayList<>(auths.size());
       try {
         if (authorizationEnabled) {
           checkCallingUserAuth();
@@ -958,7 +958,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
           "VisibilityController not yet initialized"), response);
     } else {
       byte[] requestUser = request.getUser().toByteArray();
-      List<byte[]> labelAuths = new ArrayList<byte[]>(auths.size());
+      List<byte[]> labelAuths = new ArrayList<>(auths.size());
       try {
         // When AC is ON, do AC based user auth check
         if (authorizationEnabled && accessControllerAvailable && !isSystemOrSuperUser()) {
@@ -1070,7 +1070,7 @@ public class VisibilityController extends BaseMasterAndRegionObserver implements
 
     @Override
     public ReturnCode filterKeyValue(Cell cell) throws IOException {
-      List<Tag> putVisTags = new ArrayList<Tag>();
+      List<Tag> putVisTags = new ArrayList<>();
       Byte putCellVisTagsFormat = VisibilityUtils.extractVisibilityTags(cell, putVisTags);
       boolean matchFound = VisibilityLabelServiceManager
           .getInstance().getVisibilityLabelService()

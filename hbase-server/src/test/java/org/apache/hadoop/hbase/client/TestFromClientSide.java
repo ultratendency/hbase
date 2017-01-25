@@ -180,7 +180,7 @@ public class TestFromClientSide {
   @Test
   public void testDuplicateAppend() throws Exception {
     HTableDescriptor hdt = TEST_UTIL.createTableDescriptor("HCM-testDuplicateAppend");
-    Map<String, String> kvs = new HashMap<String, String>();
+    Map<String, String> kvs = new HashMap<>();
     kvs.put(HConnectionTestingUtility.SleepAtFirstRpcCall.SLEEP_TIME_CONF_KEY, "2000");
     hdt.addCoprocessor(HConnectionTestingUtility.SleepAtFirstRpcCall.class.getName(), null, 1, kvs);
     TEST_UTIL.createTable(hdt, new byte[][] { ROW }).close();
@@ -2220,7 +2220,7 @@ public class TestFromClientSide {
       result = ht.get(get);
       assertTrue(result.size() == 1);
     }
-    ArrayList<Delete> deletes = new ArrayList<Delete>();
+    ArrayList<Delete> deletes = new ArrayList<>();
     for (int i = 0; i < 10; i++) {
       byte [] bytes = Bytes.toBytes(i);
       delete = new Delete(bytes);
@@ -3912,7 +3912,7 @@ public class TestFromClientSide {
     final byte[] value = Bytes.toBytes("abcd");
     Table table = TEST_UTIL.createTable(TableName.valueOf("testRowsPut"),
       new byte[][] {CONTENTS_FAMILY, SMALL_FAMILY });
-    ArrayList<Put> rowsUpdate = new ArrayList<Put>();
+    ArrayList<Put> rowsUpdate = new ArrayList<>();
     for (int i = 0; i < NB_BATCH_ROWS; i++) {
       byte[] row = Bytes.toBytes("row" + i);
       Put put = new Put(row);
@@ -3940,7 +3940,7 @@ public class TestFromClientSide {
     Table table = TEST_UTIL.createTable(TableName.valueOf("testRowsPutBufferedManyManyFlushes"),
         new byte[][] { CONTENTS_FAMILY, SMALL_FAMILY });
     table.setWriteBufferSize(10);
-    ArrayList<Put> rowsUpdate = new ArrayList<Put>();
+    ArrayList<Put> rowsUpdate = new ArrayList<>();
     for (int i = 0; i < NB_BATCH_ROWS * 10; i++) {
       byte[] row = Bytes.toBytes("row" + i);
       Put put = new Put(row);
@@ -4096,7 +4096,7 @@ public class TestFromClientSide {
     }
     Admin admin = TEST_UTIL.getHBaseAdmin();
     HTableDescriptor[] ts = admin.listTables();
-    HashSet<HTableDescriptor> result = new HashSet<HTableDescriptor>(ts.length);
+    HashSet<HTableDescriptor> result = new HashSet<>(ts.length);
     Collections.addAll(result, ts);
     int size = result.size();
     assertTrue(size >= tables.length);
@@ -4635,7 +4635,7 @@ public class TestFromClientSide {
 
     final Object waitLock = new Object();
     ExecutorService executorService = Executors.newFixedThreadPool(numVersions);
-    final AtomicReference<AssertionError> error = new AtomicReference<AssertionError>(null);
+    final AtomicReference<AssertionError> error = new AtomicReference<>(null);
     for (int versions = numVersions; versions < numVersions * 2; versions++) {
       final int versionsCopy = versions;
       executorService.submit(new Callable<Void>() {
@@ -5243,7 +5243,7 @@ public class TestFromClientSide {
 
   private List<HRegionLocation> getRegionsInRange(TableName tableName, byte[] startKey,
       byte[] endKey) throws IOException {
-    List<HRegionLocation> regionsInRange = new ArrayList<HRegionLocation>();
+    List<HRegionLocation> regionsInRange = new ArrayList<>();
     byte[] currentKey = startKey;
     final boolean endKeyIsEndOfTable = Bytes.equals(endKey, HConstants.EMPTY_END_ROW);
     try (RegionLocator r = TEST_UTIL.getConnection().getRegionLocator(tableName);) {
@@ -5262,7 +5262,7 @@ public class TestFromClientSide {
     TableName TABLE = TableName.valueOf("testJira6912");
     Table foo = TEST_UTIL.createTable(TABLE, new byte[][] {FAMILY}, 10);
 
-    List<Put> puts = new ArrayList<Put>();
+    List<Put> puts = new ArrayList<>();
     for (int i=0;i !=100; i++){
       Put put = new Put(Bytes.toBytes(i));
       put.addColumn(FAMILY, FAMILY, Bytes.toBytes(i));
@@ -6166,7 +6166,7 @@ public class TestFromClientSide {
     HRegionLocator locator =
         (HRegionLocator) admin.getConnection().getRegionLocator(htd.getTableName());
     for (int regionReplication = 1; regionReplication < 4; regionReplication++) {
-      List<RegionLocations> regionLocations = new ArrayList<RegionLocations>();
+      List<RegionLocations> regionLocations = new ArrayList<>();
 
       // mock region locations coming from meta with multiple replicas
       for (HRegionInfo region : regions) {

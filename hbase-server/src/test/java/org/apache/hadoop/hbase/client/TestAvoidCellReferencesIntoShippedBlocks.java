@@ -226,7 +226,7 @@ public class TestAvoidCellReferencesIntoShippedBlocks {
           } catch (InterruptedException e) {
           }
         }
-        List<BlockCacheKey> cacheList = new ArrayList<BlockCacheKey>();
+        List<BlockCacheKey> cacheList = new ArrayList<>();
         Iterator<CachedBlock> iterator = cache.iterator();
         // evict all the blocks
         while (iterator.hasNext()) {
@@ -374,7 +374,7 @@ public class TestAvoidCellReferencesIntoShippedBlocks {
       Thread evictorThread = new Thread() {
         @Override
         public void run() {
-          List<BlockCacheKey> cacheList = new ArrayList<BlockCacheKey>();
+          List<BlockCacheKey> cacheList = new ArrayList<>();
           Iterator<CachedBlock> iterator = cache.iterator();
           // evict all the blocks
           while (iterator.hasNext()) {
@@ -411,7 +411,7 @@ public class TestAvoidCellReferencesIntoShippedBlocks {
             }
             assertEquals("Count the rows", count, 2);
             iterator = cache.iterator();
-            List<BlockCacheKey> newCacheList = new ArrayList<BlockCacheKey>();
+            List<BlockCacheKey> newCacheList = new ArrayList<>();
             while (iterator.hasNext()) {
               CachedBlock next = iterator.next();
               BlockCacheKey cacheKey = new BlockCacheKey(next.getFilename(), next.getOffset());

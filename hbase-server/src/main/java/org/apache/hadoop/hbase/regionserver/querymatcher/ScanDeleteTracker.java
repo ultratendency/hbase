@@ -47,7 +47,7 @@ public class ScanDeleteTracker implements DeleteTracker {
 
   protected boolean hasFamilyStamp = false;
   protected long familyStamp = 0L;
-  protected SortedSet<Long> familyVersionStamps = new TreeSet<Long>();
+  protected SortedSet<Long> familyVersionStamps = new TreeSet<>();
   protected byte[] deleteBuffer = null;
   protected int deleteOffset = 0;
   protected int deleteLength = 0;

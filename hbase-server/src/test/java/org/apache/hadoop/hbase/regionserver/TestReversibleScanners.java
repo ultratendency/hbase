@@ -429,7 +429,7 @@ public class TestReversibleScanners {
   private void verifyCountAndOrder(InternalScanner scanner,
       int expectedKVCount, int expectedRowCount, boolean forward)
       throws IOException {
-    List<Cell> kvList = new ArrayList<Cell>();
+    List<Cell> kvList = new ArrayList<>();
     Result lastResult = null;
     int rowCount = 0;
     int kvCount = 0;
@@ -496,8 +496,7 @@ public class TestReversibleScanners {
         .getScannersForStoreFiles(Lists.newArrayList(sf1, sf2), false, true,
             false, false, readPoint);
     List<KeyValueScanner> memScanners = memstore.getScanners(readPoint);
-    List<KeyValueScanner> scanners = new ArrayList<KeyValueScanner>(
-        fileScanners.size() + 1);
+    List<KeyValueScanner> scanners = new ArrayList<>(fileScanners.size() + 1);
     scanners.addAll(fileScanners);
     scanners.addAll(memScanners);
 
@@ -605,7 +604,7 @@ public class TestReversibleScanners {
     for (int i = startRowNum; i >= 0; i--) {
       for (int j = (i == startRowNum ? startQualNum : 0); j < QUALSIZE; j++) {
         if (makeMVCC(i, j) <= readPoint) {
-          nextReadableNum = new Pair<Integer, Integer>(i, j);
+          nextReadableNum = new Pair<>(i, j);
           findExpected = true;
           break;
         }

@@ -177,8 +177,7 @@ public class TestReplicationAdminWithClusters extends TestReplicationBase {
     }
     assertFalse("Table should not exists in the peer cluster", admin2.isTableAvailable(tableName));
 
-    Map<TableName, ? extends Collection<String>> tableCfs =
-        new HashMap<TableName, Collection<String>>();
+    Map<TableName, ? extends Collection<String>> tableCfs = new HashMap<>();
     tableCfs.put(tn, null);
     try {
       adminExt.setPeerTableCFs(peerId, tableCfs);

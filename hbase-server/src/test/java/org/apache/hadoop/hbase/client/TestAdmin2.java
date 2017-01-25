@@ -770,7 +770,7 @@ public class TestAdmin2 {
    */
   @Test(timeout = 10000, expected = IllegalArgumentException.class)
   public void testCheckDrainServerName() throws Exception {
-    List<ServerName> servers = new ArrayList<ServerName>();
+    List<ServerName> servers = new ArrayList<>();
     servers.add(ServerName.parseServerName("127.0.0.1:123"));
     admin.drainRegionServers(servers);
   }
@@ -785,7 +785,7 @@ public class TestAdmin2 {
 
     // Drain all region servers.
     Collection<ServerName> clusterServers = admin.getClusterStatus().getServers();
-    drainingServers = new ArrayList<ServerName>();
+    drainingServers = new ArrayList<>();
     for (ServerName server : clusterServers) {
       drainingServers.add(server);
     }

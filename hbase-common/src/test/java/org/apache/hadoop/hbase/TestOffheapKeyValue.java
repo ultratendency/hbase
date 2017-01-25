@@ -45,7 +45,7 @@ public class TestOffheapKeyValue {
   private static final byte[] qual2 = Bytes.toBytes(QUAL2);
   private static final Tag t1 = new ArrayBackedTag((byte) 1, Bytes.toBytes("TAG1"));
   private static final Tag t2 = new ArrayBackedTag((byte) 2, Bytes.toBytes("TAG2"));
-  private static final ArrayList<Tag> tags = new ArrayList<Tag>();
+  private static final ArrayList<Tag> tags = new ArrayList<>();
   static {
     tags.add(t1);
     tags.add(t2);

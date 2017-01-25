@@ -54,7 +54,7 @@ public class TestHRegionPartitioner {
     UTIL.createTable(TableName.valueOf("out_table"), families, 1,
     Bytes.toBytes("aa"), Bytes.toBytes("cc"), 3);
 
-    HRegionPartitioner<Long, Long> partitioner = new HRegionPartitioner<Long, Long>();
+    HRegionPartitioner<Long, Long> partitioner = new HRegionPartitioner<>();
     Configuration configuration = UTIL.getConfiguration();
     configuration.set(TableOutputFormat.OUTPUT_TABLE, "out_table");
     partitioner.setConf(configuration);

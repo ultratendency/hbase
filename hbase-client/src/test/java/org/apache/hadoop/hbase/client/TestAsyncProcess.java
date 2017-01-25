@@ -146,7 +146,7 @@ public class TestAsyncProcess {
   static class MyAsyncProcess extends AsyncProcess {
     final AtomicInteger nbMultiResponse = new AtomicInteger();
     final AtomicInteger nbActions = new AtomicInteger();
-    public List<AsyncRequestFuture> allReqs = new ArrayList<AsyncRequestFuture>();
+    public List<AsyncRequestFuture> allReqs = new ArrayList<>();
     public AtomicInteger callsCt = new AtomicInteger();
 
     private long previousTimeout = -1;
@@ -161,7 +161,7 @@ public class TestAsyncProcess {
           return DUMMY_TABLE;
         }
       };
-      AsyncRequestFutureImpl<Res> r = new MyAsyncRequestFutureImpl<Res>(
+      AsyncRequestFutureImpl<Res> r = new MyAsyncRequestFutureImpl<>(
           wrap, actions, nonceGroup, this);
       allReqs.add(r);
       return r;
@@ -325,9 +325,9 @@ public class TestAsyncProcess {
     }
   }
   class MyAsyncProcessWithReplicas extends MyAsyncProcess {
-    private Set<byte[]> failures = new TreeSet<byte[]>(new Bytes.ByteArrayComparator());
+    private Set<byte[]> failures = new TreeSet<>(new Bytes.ByteArrayComparator());
     private long primarySleepMs = 0, replicaSleepMs = 0;
-    private Map<ServerName, Long> customPrimarySleepMs = new HashMap<ServerName, Long>();
+    private Map<ServerName, Long> customPrimarySleepMs = new HashMap<>();
     private final AtomicLong replicaCalls = new AtomicLong(0);
 
     public void addFailures(HRegionInfo... hris) {
@@ -682,7 +682,7 @@ public class TestAsyncProcess {
     ClusterConnection hc = createHConnection();
     MyAsyncProcess ap = new MyAsyncProcess(hc, CONF);
 
-    List<Put> puts = new ArrayList<Put>(1);
+    List<Put> puts = new ArrayList<>(1);
     puts.add(createPut(1, true));
 
     ap.submit(null, DUMMY_TABLE, puts, false, null, false);
@@ -701,7 +701,7 @@ public class TestAsyncProcess {
     };
     MyAsyncProcess ap = new MyAsyncProcess(hc, CONF);
 
-    List<Put> puts = new ArrayList<Put>(1);
+    List<Put> puts = new ArrayList<>(1);
     puts.add(createPut(1, true));
 
     final AsyncRequestFuture ars = ap.submit(null, DUMMY_TABLE, puts, false, cb, false);
@@ -718,7 +718,7 @@ public class TestAsyncProcess {
       SimpleRequestController.class.getName());
     MyAsyncProcess ap = new MyAsyncProcess(conn, CONF);
     SimpleRequestController controller = (SimpleRequestController) ap.requestController;
-    List<Put> puts = new ArrayList<Put>(1);
+    List<Put> puts = new ArrayList<>(1);
     puts.add(createPut(1, true));
 
     for (int i = 0; i != controller.maxConcurrentTasksPerRegion; ++i) {
@@ -747,7 +747,7 @@ public class TestAsyncProcess {
     SimpleRequestController controller = (SimpleRequestController) ap.requestController;
     controller.taskCounterPerServer.put(sn2, new AtomicInteger(controller.maxConcurrentTasksPerServer));
 
-    List<Put> puts = new ArrayList<Put>(4);
+    List<Put> puts = new ArrayList<>(4);
     puts.add(createPut(1, true));
     puts.add(createPut(3, true)); // <== this one won't be taken, the rs is busy
     puts.add(createPut(1, true)); // <== this one will make it, the region is already in
@@ -769,7 +769,7 @@ public class TestAsyncProcess {
   public void testFail() throws Exception {
     MyAsyncProcess ap = new MyAsyncProcess(createHConnection(), CONF, false);
 
-    List<Put> puts = new ArrayList<Put>(1);
+    List<Put> puts = new ArrayList<>(1);
     Put p = createPut(1, false);
     puts.add(p);
 
@@ -817,7 +817,7 @@ public class TestAsyncProcess {
       }
     };
 
-    List<Put> puts = new ArrayList<Put>(1);
+    List<Put> puts = new ArrayList<>(1);
     Put p = createPut(1, true);
     puts.add(p);
 
@@ -843,7 +843,7 @@ public class TestAsyncProcess {
   public void testFailAndSuccess() throws Exception {
     MyAsyncProcess ap = new MyAsyncProcess(createHConnection(), CONF, false);
 
-    List<Put> puts = new ArrayList<Put>(3);
+    List<Put> puts = new ArrayList<>(3);
     puts.add(createPut(1, false));
     puts.add(createPut(1, true));
     puts.add(createPut(1, true));
@@ -870,7 +870,7 @@ public class TestAsyncProcess {
   public void testFlush() throws Exception {
     MyAsyncProcess ap = new MyAsyncProcess(createHConnection(), CONF, false);
 
-    List<Put> puts = new ArrayList<Put>(3);
+    List<Put> puts = new ArrayList<>(3);
     puts.add(createPut(1, false));
     puts.add(createPut(1, true));
     puts.add(createPut(1, true));
@@ -955,7 +955,7 @@ public class TestAsyncProcess {
       }
     };
 
-    List<Put> puts = new ArrayList<Put>(1);
+    List<Put> puts = new ArrayList<>(1);
     puts.add(createPut(1, true));
 
     t.start();
@@ -980,7 +980,7 @@ public class TestAsyncProcess {
     t2.start();
 
     long start = System.currentTimeMillis();
-    ap.submit(null, DUMMY_TABLE, new ArrayList<Row>(), false, null, false);
+    ap.submit(null, DUMMY_TABLE, new ArrayList<>(), false, null, false);
     long end = System.currentTimeMillis();
 
     //Adds 100 to secure us against approximate timing.
@@ -1007,7 +1007,7 @@ public class TestAsyncProcess {
     setMockLocation(hc, DUMMY_BYTES_1, hrls1);
     setMockLocation(hc, DUMMY_BYTES_2, hrls2);
     setMockLocation(hc, DUMMY_BYTES_3, hrls3);
-    List<HRegionLocation> locations = new ArrayList<HRegionLocation>();
+    List<HRegionLocation> locations = new ArrayList<>();
     for (HRegionLocation loc : hrls1.getRegionLocations()) {
       locations.add(loc);
     }
@@ -1171,7 +1171,7 @@ public class TestAsyncProcess {
     HTable ht = new HTable(conn, mutator);
     ht.multiAp = new MyAsyncProcess(conn, CONF, false);
 
-    List<Put> puts = new ArrayList<Put>(7);
+    List<Put> puts = new ArrayList<>(7);
     puts.add(createPut(1, true));
     puts.add(createPut(1, true));
     puts.add(createPut(1, true));
@@ -1308,8 +1308,8 @@ public class TestAsyncProcess {
   @Test
   public void testThreadCreation() throws Exception {
     final int NB_REGS = 100;
-    List<HRegionLocation> hrls = new ArrayList<HRegionLocation>(NB_REGS);
-    List<Get> gets = new ArrayList<Get>(NB_REGS);
+    List<HRegionLocation> hrls = new ArrayList<>(NB_REGS);
+    List<Get> gets = new ArrayList<>(NB_REGS);
     for (int i = 0; i < NB_REGS; i++) {
       HRegionInfo hri = new HRegionInfo(
           DUMMY_TABLE, Bytes.toBytes(i * 10L), Bytes.toBytes(i * 10L + 9L), false, i);
@@ -1517,7 +1517,7 @@ public class TestAsyncProcess {
   }
 
   private static List<Get> makeTimelineGets(byte[]... rows) {
-    List<Get> result = new ArrayList<Get>(rows.length);
+    List<Get> result = new ArrayList<>(rows.length);
     for (byte[] row : rows) {
       Get get = new Get(row);
       get.setConsistency(Consistency.TIMELINE);
@@ -1608,10 +1608,10 @@ public class TestAsyncProcess {
     ClusterConnection hc = createHConnection();
     MyThreadPoolExecutor myPool =
         new MyThreadPoolExecutor(1, 20, 60, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(200));
+            new LinkedBlockingQueue<>(200));
     AsyncProcess ap = new AsyncProcessForThrowableCheck(hc, CONF);
 
-    List<Put> puts = new ArrayList<Put>(1);
+    List<Put> puts = new ArrayList<>(1);
     puts.add(createPut(1, true));
     AsyncProcessTask task = AsyncProcessTask.newBuilder()
             .setPool(myPool)

@@ -95,7 +95,7 @@ public class TestReplicationWALReaderManager {
     int[] NB_KVS = { 1, 100 };
     // whether compression is used
     Boolean[] BOOL_VALS = { false, true };
-    List<Object[]> parameters = new ArrayList<Object[]>();
+    List<Object[]> parameters = new ArrayList<>();
     for (int nbRows : NB_ROWS) {
       for (int walEditKVs : NB_KVS) {
         for (boolean b : BOOL_VALS) {
@@ -126,8 +126,7 @@ public class TestReplicationWALReaderManager {
 
     cluster = TEST_UTIL.getDFSCluster();
     fs = cluster.getFileSystem();
-    scopes = new TreeMap<byte[], Integer>(
-        Bytes.BYTES_COMPARATOR);
+    scopes = new TreeMap<>(Bytes.BYTES_COMPARATOR);
     for(byte[] fam : htd.getFamiliesKeys()) {
       scopes.put(fam, 0);
     }
@@ -141,7 +140,7 @@ public class TestReplicationWALReaderManager {
   @Before
   public void setUp() throws Exception {
     logManager = new ReplicationWALReaderManager(fs, conf);
-    List<WALActionsListener> listeners = new ArrayList<WALActionsListener>(1);
+    List<WALActionsListener> listeners = new ArrayList<>(1);
     pathWatcher = new PathWatcher();
     listeners.add(pathWatcher);
     final WALFactory wals = new WALFactory(conf, listeners, tn.getMethodName());
