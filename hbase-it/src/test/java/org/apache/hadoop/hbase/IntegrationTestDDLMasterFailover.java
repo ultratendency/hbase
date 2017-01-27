@@ -609,7 +609,7 @@ public class IntegrationTestDDLMasterFailover extends IntegrationTestBase {
         }
         TableName tableName = selected.getTableName();
         LOG.info("Adding column family: " + cfd + " to table: " + tableName);
-        admin.addColumn(tableName, cfd);
+        admin.addColumnFamily(tableName, cfd);
         // assertion
         HTableDescriptor freshTableDesc = admin.getTableDescriptor(tableName);
         Assert.assertTrue("Column family: " + cfd + " was not added",
