@@ -26,6 +26,7 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.math.RandomUtils;
@@ -47,7 +48,6 @@ import org.apache.hadoop.hbase.ServerName;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.UnknownRegionException;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.RegionReplicaUtil;
 import org.apache.hadoop.hbase.client.Result;
@@ -321,7 +321,8 @@ public class TestRegionMergeTransactionOnCluster {
   public void testMerge() throws Exception {
     LOG.info("Starting testMerge");
     final TableName tableName = TableName.valueOf("testMerge");
-    final HBaseAdmin hbaseAdmin = TEST_UTIL.getHBaseAdmin();
+    final Admin admin = TEST_UTIL.getAdmin();
+    final int syncWaitTimeout = 10 * 60000; // 10min
 
     try {
       // Create table and load data.
@@ -334,7 +335,8 @@ public class TestRegionMergeTransactionOnCluster {
       regionStates.regionOffline(a);
       try {
         // Merge offline region. Region a is offline here
-        hbaseAdmin.mergeRegionsSync(a.getEncodedNameAsBytes(), b.getEncodedNameAsBytes(), false);
+        admin.mergeRegionsAsync(a.getEncodedNameAsBytes(), b.getEncodedNameAsBytes(), false)
+                .get(syncWaitTimeout, TimeUnit.MILLISECONDS);
         fail("Offline regions should not be able to merge");
       } catch (IOException ie) {
         System.out.println(ie);
@@ -345,7 +347,8 @@ public class TestRegionMergeTransactionOnCluster {
 
       try {
         // Merge the same region: b and b.
-        hbaseAdmin.mergeRegionsSync(b.getEncodedNameAsBytes(), b.getEncodedNameAsBytes(), true);
+        admin.mergeRegionsAsync(b.getEncodedNameAsBytes(), b.getEncodedNameAsBytes(), true)
+                .get(syncWaitTimeout, TimeUnit.MILLISECONDS);;
         fail("A region should not be able to merge with itself, even forcifully");
       } catch (IOException ie) {
         assertTrue("Exception should mention regions not online",
@@ -355,7 +358,8 @@ public class TestRegionMergeTransactionOnCluster {
 
       try {
         // Merge unknown regions
-        hbaseAdmin.mergeRegionsSync(Bytes.toBytes("-f1"), Bytes.toBytes("-f2"), true);
+        admin.mergeRegionsAsync(Bytes.toBytes("-f1"), Bytes.toBytes("-f2"), true)
+                .get(syncWaitTimeout, TimeUnit.MILLISECONDS);;
         fail("Unknown region could not be merged");
       } catch (IOException ie) {
         assertTrue("UnknownRegionException should be thrown",
