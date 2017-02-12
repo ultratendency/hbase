@@ -78,7 +78,7 @@ class AsyncTableResultScanner implements ResultScanner, RawScanResultConsumer {
 
   private void stopPrefetch(Result lastResult) {
     prefetchStopped = true;
-    if (lastResult.isPartial() || scan.getBatch() > 0) {
+    if (lastResult.mayHaveMoreCellsInRow() || scan.getBatch() > 0) {
       scan.withStartRow(lastResult.getRow());
       lastCell = lastResult.rawCells()[lastResult.rawCells().length - 1];
     } else {

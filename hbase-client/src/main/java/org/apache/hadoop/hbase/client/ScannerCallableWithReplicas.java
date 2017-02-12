@@ -323,7 +323,7 @@ class ScannerCallableWithReplicas implements RetryingCallable<Result[]> {
   private void setStartRowForReplicaCallable(ScannerCallable callable) {
     if (this.lastResult == null || callable == null) return;
 
-    if (this.lastResult.isPartial()) {
+    if (this.lastResult.mayHaveMoreCellsInRow()) {
       // The last result was a partial result which means we have not received all of the cells
       // for this row. Thus, use the last result's row as the start row. If a replica switch
       // occurs, the scanner will ensure that any accumulated partial results are cleared,

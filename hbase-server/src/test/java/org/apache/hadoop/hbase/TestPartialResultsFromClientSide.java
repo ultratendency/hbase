@@ -153,7 +153,7 @@ public class TestPartialResultsFromClientSide {
       message = "Ensuring the expected keyValues are present for row " + row;
       List<Cell> expectedKeyValues = createKeyValuesForRow(ROWS[row], FAMILIES, QUALIFIERS, VALUE);
       Result result = partialScanner.next();
-      assertFalse(result.isPartial());
+      assertFalse(result.mayHaveMoreCellsInRow());
       verifyResult(result, expectedKeyValues, message);
     }
 
@@ -173,7 +173,7 @@ public class TestPartialResultsFromClientSide {
     Result result = scanner.next();
 
     assertTrue(result != null);
-    assertTrue(result.isPartial());
+    assertTrue(result.mayHaveMoreCellsInRow());
     assertTrue(result.rawCells() != null);
     assertTrue(result.rawCells().length == 1);
 
@@ -184,7 +184,7 @@ public class TestPartialResultsFromClientSide {
     result = scanner.next();
 
     assertTrue(result != null);
-    assertTrue(!result.isPartial());
+    assertTrue(!result.mayHaveMoreCellsInRow());
     assertTrue(result.rawCells() != null);
     assertTrue(result.rawCells().length == NUM_COLS);
 
@@ -278,7 +278,7 @@ public class TestPartialResultsFromClientSide {
         for (Cell c : partialResult.rawCells()) {
           aggregatePartialCells.add(c);
         }
-      } while (partialResult.isPartial());
+      } while (partialResult.mayHaveMoreCellsInRow());
 
       assertTrue("Number of cells differs. iteration: " + iterationCount,
           oneShotResult.rawCells().length == aggregatePartialCells.size());
@@ -348,7 +348,7 @@ public class TestPartialResultsFromClientSide {
       // the last group of cells that fit inside the maxResultSize
       assertTrue(
           "Result's cell count differed from expected number. result: " + result,
-          result.rawCells().length == expectedNumberOfCells || !result.isPartial()
+          result.rawCells().length == expectedNumberOfCells || !result.mayHaveMoreCellsInRow()
               || !Bytes.equals(prevRow, result.getRow()));
       prevRow = result.getRow();
     }
@@ -426,7 +426,7 @@ public class TestPartialResultsFromClientSide {
     while ((result = scanner.next()) != null) {
       assertTrue(result.rawCells() != null);
 
-      if (result.isPartial()) {
+      if (result.mayHaveMoreCellsInRow()) {
         final String error =
             "Cells:" + result.rawCells().length + " Batch size:" + batch
                 + " cellsPerPartialResult:" + cellsPerPartialResult + " rep:" + repCount;
@@ -472,7 +472,7 @@ public class TestPartialResultsFromClientSide {
       do {
         partialResult = partialScanner.next();
         partials.add(partialResult);
-      } while (partialResult != null && partialResult.isPartial());
+      } while (partialResult != null && partialResult.mayHaveMoreCellsInRow());
 
       completeResult = Result.createCompleteResult(partials);
       oneShotResult = oneShotScanner.next();
@@ -533,7 +533,7 @@ public class TestPartialResultsFromClientSide {
 
     Result r = null;
     while ((r = scanner.next()) != null) {
-      assertFalse(r.isPartial());
+      assertFalse(r.mayHaveMoreCellsInRow());
     }
 
     scanner.close();
@@ -583,7 +583,7 @@ public class TestPartialResultsFromClientSide {
     // hit before the caching limit and thus partial results may be seen
     boolean expectToSeePartialResults = resultSizeRowLimit < cachingRowLimit;
     while ((r = clientScanner.next()) != null) {
-      assertTrue(!r.isPartial() || expectToSeePartialResults);
+      assertTrue(!r.mayHaveMoreCellsInRow() || expectToSeePartialResults);
     }
 
     scanner.close();
@@ -613,7 +613,7 @@ public class TestPartialResultsFromClientSide {
     Result r = null;
 
     while ((r = scanner.next()) != null) {
-      assertFalse(r.isPartial());
+      assertFalse(r.mayHaveMoreCellsInRow());
     }
 
     scanner.close();
@@ -878,7 +878,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(1, result1.rawCells().length);
     Cell c1 = result1.rawCells()[0];
     assertCell(c1, ROWS[0], FAMILIES[NUM_FAMILIES - 1], QUALIFIERS[NUM_QUALIFIERS - 1]);
-    assertFalse(result1.isPartial());
+    assertFalse(result1.mayHaveMoreCellsInRow());
 
     moveRegion(table, 2);
 
@@ -886,7 +886,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(1, result2.rawCells().length);
     Cell c2 = result2.rawCells()[0];
     assertCell(c2, ROWS[1], FAMILIES[0], QUALIFIERS[0]);
-    assertTrue(result2.isPartial());
+    assertTrue(result2.mayHaveMoreCellsInRow());
 
     moveRegion(table, 3);
 
@@ -894,7 +894,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(1, result3.rawCells().length);
     Cell c3 = result3.rawCells()[0];
     assertCell(c3, ROWS[1], FAMILIES[0], QUALIFIERS[1]);
-    assertTrue(result3.isPartial());
+    assertTrue(result3.mayHaveMoreCellsInRow());
 
   }
 
@@ -917,7 +917,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(1, result1.rawCells().length);
     Cell c1 = result1.rawCells()[0];
     assertCell(c1, ROWS[NUM_ROWS-1], FAMILIES[NUM_FAMILIES - 1], QUALIFIERS[NUM_QUALIFIERS - 1]);
-    assertFalse(result1.isPartial());
+    assertFalse(result1.mayHaveMoreCellsInRow());
 
     moveRegion(table, 2);
 
@@ -925,7 +925,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(1, result2.rawCells().length);
     Cell c2 = result2.rawCells()[0];
     assertCell(c2, ROWS[NUM_ROWS-2], FAMILIES[0], QUALIFIERS[0]);
-    assertTrue(result2.isPartial());
+    assertTrue(result2.mayHaveMoreCellsInRow());
 
     moveRegion(table, 3);
 
@@ -933,7 +933,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(1, result3.rawCells().length);
     Cell c3 = result3.rawCells()[0];
     assertCell(c3, ROWS[NUM_ROWS-2], FAMILIES[0], QUALIFIERS[1]);
-    assertTrue(result3.isPartial());
+    assertTrue(result3.mayHaveMoreCellsInRow());
 
   }
 
@@ -953,7 +953,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(NUM_FAMILIES * NUM_QUALIFIERS, result1.rawCells().length);
     Cell c1 = result1.rawCells()[0];
     assertCell(c1, ROWS[0], FAMILIES[0], QUALIFIERS[0]);
-    assertFalse(result1.isPartial());
+    assertFalse(result1.mayHaveMoreCellsInRow());
 
     moveRegion(table, 2);
 
@@ -961,7 +961,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(NUM_FAMILIES * NUM_QUALIFIERS, result2.rawCells().length);
     Cell c2 = result2.rawCells()[0];
     assertCell(c2, ROWS[1], FAMILIES[0], QUALIFIERS[0]);
-    assertFalse(result2.isPartial());
+    assertFalse(result2.mayHaveMoreCellsInRow());
 
     moveRegion(table, 3);
 
@@ -969,7 +969,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(NUM_FAMILIES * NUM_QUALIFIERS, result3.rawCells().length);
     Cell c3 = result3.rawCells()[0];
     assertCell(c3, ROWS[2], FAMILIES[0], QUALIFIERS[0]);
-    assertFalse(result3.isPartial());
+    assertFalse(result3.mayHaveMoreCellsInRow());
 
   }
 
@@ -990,7 +990,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(NUM_FAMILIES*NUM_QUALIFIERS, result1.rawCells().length);
     Cell c1 = result1.rawCells()[0];
     assertCell(c1, ROWS[NUM_ROWS-1], FAMILIES[0], QUALIFIERS[0]);
-    assertFalse(result1.isPartial());
+    assertFalse(result1.mayHaveMoreCellsInRow());
 
     moveRegion(table, 2);
 
@@ -998,7 +998,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(NUM_FAMILIES*NUM_QUALIFIERS, result2.rawCells().length);
     Cell c2 = result2.rawCells()[0];
     assertCell(c2, ROWS[NUM_ROWS-2], FAMILIES[0], QUALIFIERS[0]);
-    assertFalse(result2.isPartial());
+    assertFalse(result2.mayHaveMoreCellsInRow());
 
     moveRegion(table, 3);
 
@@ -1006,7 +1006,7 @@ public class TestPartialResultsFromClientSide {
     assertEquals(NUM_FAMILIES*NUM_QUALIFIERS, result3.rawCells().length);
     Cell c3 = result3.rawCells()[0];
     assertCell(c3, ROWS[NUM_ROWS-3], FAMILIES[0], QUALIFIERS[0]);
-    assertFalse(result3.isPartial());
+    assertFalse(result3.mayHaveMoreCellsInRow());
 
   }
 
