@@ -25,5 +25,5 @@ import org.apache.hadoop.hbase.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public enum SnapshotType {
-  DISABLED, FLUSH, SKIPFLUSH;
+  DISABLED, FLUSH, SKIPFLUSH
 }

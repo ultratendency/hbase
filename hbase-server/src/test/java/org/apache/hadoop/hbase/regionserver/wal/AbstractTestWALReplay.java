@@ -670,8 +670,7 @@ public abstract class AbstractTestWALReplay {
       }
       return super.flushSnapshot(snapshot, cacheFlushId, status, throughputController);
     }
-
-  };
+  }
 
   /**
    * Test that we could recover the data correctly after aborting flush. In the

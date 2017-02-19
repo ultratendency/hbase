@@ -571,7 +571,7 @@ public class TestHFileOutputFormat2  {
     Path testDir = util.getDataTestDirOnTestFS("testLocalMRIncrementalLoad");
     FileSystem fs = testDir.getFileSystem(conf);
     try (RegionLocator r = util.getConnection().getRegionLocator(tableName); Admin admin =
-        util.getConnection().getAdmin();) {
+        util.getConnection().getAdmin()) {
       assertEquals("Should start with empty table", 0, util.countRows(table));
       int numRegions = r.getStartKeys().length;
       assertEquals("Should make " + regionNum + " regions", numRegions, regionNum);

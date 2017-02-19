@@ -26,6 +26,5 @@ public enum TagUsage {
   // KVs with tags 
   ONLY_TAG, 
   // kvs with and without tags
-  PARTIAL_TAG;
-
+  PARTIAL_TAG
 }

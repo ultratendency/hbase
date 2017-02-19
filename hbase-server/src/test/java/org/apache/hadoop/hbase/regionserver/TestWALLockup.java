@@ -268,7 +268,7 @@ public class TestWALLockup {
             LOG.info("In flush", e);
           }
           LOG.info("Exiting");
-        };
+        }
       };
       t.setDaemon(true);
       t.start();
@@ -450,7 +450,7 @@ public class TestWALLockup {
           }
           latch.countDown();
           LOG.info("Sync exiting");
-        };
+        }
       };
       t.setDaemon(true);
       t.start();

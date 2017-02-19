@@ -259,7 +259,7 @@ public class TestReplicationWALEntryFilters {
     assertEquals(createEntry(null, a,b,c), filter.filter(userEntry));
 
     // namespace ns1
-    namespaces = new HashSet<String>();;
+    namespaces = new HashSet<String>();
     namespaces.add("ns1");
     when(peer.getNamespaces()).thenReturn(namespaces);
     userEntry = createEntry(null, a, b, c);
@@ -278,7 +278,7 @@ public class TestReplicationWALEntryFilters {
     filter = new ChainWALEntryFilter(new NamespaceTableCfWALEntryFilter(peer));
     assertEquals(createEntry(null, a, c), filter.filter(userEntry));
 
-    namespaces = new HashSet<String>();;
+    namespaces = new HashSet<String>();
     tableCfs = new HashMap<TableName, List<String>>();
     namespaces.add("default");
     when(peer.getNamespaces()).thenReturn(namespaces);
@@ -288,7 +288,7 @@ public class TestReplicationWALEntryFilters {
     filter = new ChainWALEntryFilter(new NamespaceTableCfWALEntryFilter(peer));
     assertEquals(createEntry(null, a, b, c), filter.filter(userEntry));
 
-    namespaces = new HashSet<String>();;
+    namespaces = new HashSet<String>();
     tableCfs = new HashMap<TableName, List<String>>();
     namespaces.add("ns1");
     when(peer.getNamespaces()).thenReturn(namespaces);

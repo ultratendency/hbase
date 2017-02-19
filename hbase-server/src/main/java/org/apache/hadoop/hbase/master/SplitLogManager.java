@@ -779,7 +779,7 @@ public class SplitLogManager {
   }
 
   public enum ResubmitDirective {
-    CHECK(), FORCE();
+    CHECK(), FORCE()
   }
 
   public enum TerminationStatus {

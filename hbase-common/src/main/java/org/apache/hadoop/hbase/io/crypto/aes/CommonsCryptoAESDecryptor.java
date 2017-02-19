@@ -77,8 +77,5 @@ public class CommonsCryptoAESDecryptor implements Decryptor {
   }
 
   @Override
-  public void reset() {
-    ;
-  }
-
+  public void reset() {}
 }

@@ -32,7 +32,7 @@ public interface TableProcedureInterface {
   public enum TableOperationType {
     CREATE, DELETE, DISABLE, EDIT, ENABLE, READ,
     REGION_EDIT, SPLIT, MERGE, ASSIGN, UNASSIGN, /* region operations */
-  };
+  }
 
   /**
    * @return the name of the table the procedure is operating on

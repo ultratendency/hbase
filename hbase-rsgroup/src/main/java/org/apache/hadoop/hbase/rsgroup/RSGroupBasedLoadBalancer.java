@@ -218,7 +218,7 @@ public class RSGroupBasedLoadBalancer implements RSGroupableBalancer, LoadBalanc
       }
 
       for (HRegionInfo region : misplacedRegions) {
-        String groupName = rsGroupInfoManager.getRSGroupOfTable(region.getTable());;
+        String groupName = rsGroupInfoManager.getRSGroupOfTable(region.getTable());
         RSGroupInfo info = rsGroupInfoManager.getRSGroup(groupName);
         List<ServerName> candidateList = filterOfflineServers(info, servers);
         ServerName server = this.internalBalancer.randomAssignment(region,

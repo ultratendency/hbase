@@ -59,5 +59,4 @@ public enum SecurityCapability {
         throw new IllegalArgumentException("Unknown SecurityCapability value " + value);
     }
   }
-};
-
+}

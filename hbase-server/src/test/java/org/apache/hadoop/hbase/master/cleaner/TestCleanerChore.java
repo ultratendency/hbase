@@ -367,7 +367,7 @@ public class TestCleanerChore {
     protected boolean validate(Path file) {
       return true;
     }
-  };
+  }
 
   public static class AlwaysDelete extends BaseHFileCleanerDelegate {
     @Override

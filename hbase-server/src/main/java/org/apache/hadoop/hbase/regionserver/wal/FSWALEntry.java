@@ -89,7 +89,7 @@ class FSWALEntry extends Entry {
 
   public String toString() {
     return "sequence=" + this.txid + ", " + super.toString();
-  };
+  }
 
   boolean isInMemstore() {
     return this.inMemstore;

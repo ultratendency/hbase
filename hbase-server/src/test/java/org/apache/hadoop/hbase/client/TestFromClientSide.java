@@ -5318,7 +5318,7 @@ public class TestFromClientSide {
     List<HRegionLocation> regionsInRange = new ArrayList<HRegionLocation>();
     byte[] currentKey = startKey;
     final boolean endKeyIsEndOfTable = Bytes.equals(endKey, HConstants.EMPTY_END_ROW);
-    try (RegionLocator r = TEST_UTIL.getConnection().getRegionLocator(tableName);) {
+    try (RegionLocator r = TEST_UTIL.getConnection().getRegionLocator(tableName)) {
       do {
         HRegionLocation regionLocation = r.getRegionLocation(currentKey);
         regionsInRange.add(regionLocation);

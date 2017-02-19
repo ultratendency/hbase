@@ -46,5 +46,5 @@ public enum KeepDeletedCells {
    * wants to keep a minimum number of versions around but at the same
    * time remove deleted cells after the TTL.
    */
-  TTL;
+  TTL
 }

@@ -391,7 +391,7 @@ public class TestHRegionReplayEvents {
           }
         }
       } else {
-        lastReplayed = replayEdit(secondaryRegion, entry);;
+        lastReplayed = replayEdit(secondaryRegion, entry);
       }
     }
 

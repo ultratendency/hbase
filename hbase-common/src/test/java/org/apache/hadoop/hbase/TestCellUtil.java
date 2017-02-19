@@ -53,7 +53,7 @@ public class TestCellUtil {
     public CellScanner cellScanner() {
       return new TestCellScanner(this.cellsCount);
     }
-  };
+  }
 
   /**
    * CellScanner used in test.
@@ -197,7 +197,7 @@ public class TestCellUtil {
       // TODO Auto-generated method stub
       return 0;
     }
-  };
+  }
 
   /**
    * Was overflowing if 100k or so lists of cellscanners to return.

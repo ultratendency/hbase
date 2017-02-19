@@ -152,7 +152,7 @@ public class TestStoreScanner {
         optimization.incrementAndGet();
       }
       return after;
-    };
+    }
 
     @Override
     public Cell getNextIndexedKey() {
@@ -165,7 +165,7 @@ public class TestStoreScanner {
                       CellUtil.createFirstOnRow(CELL_GRID[CELL_GRID_BLOCK3_BOUNDARY]):
                         CellUtil.createFirstOnRow(CELL_GRID[CELL_GRID_BLOCK2_BOUNDARY]);
     }
-  };
+  }
 
   /*
    * Test utility for building a NavigableSet for scanners.

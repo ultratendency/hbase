@@ -37,7 +37,7 @@ public class KeyProviderForTesting implements KeyProvider {
   public Key[] getKeys(String[] aliases) {
     Key[] result = new Key[aliases.length];
     for (int i = 0; i < aliases.length; i++) {
-      result[i] = new SecretKeySpec(Encryption.hash128(aliases[i]), "AES");;
+      result[i] = new SecretKeySpec(Encryption.hash128(aliases[i]), "AES");
     }
     return result;
   }

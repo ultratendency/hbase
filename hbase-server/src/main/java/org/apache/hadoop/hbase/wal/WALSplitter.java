@@ -1139,7 +1139,7 @@ public class WALSplitter {
     protected EntryBuffers entryBuffers;
 
     protected Map<byte[], SinkWriter> writers = Collections
-        .synchronizedMap(new TreeMap<byte[], SinkWriter>(Bytes.BYTES_COMPARATOR));;
+        .synchronizedMap(new TreeMap<byte[], SinkWriter>(Bytes.BYTES_COMPARATOR));
 
     protected final Map<byte[], Long> regionMaximumEditLogSeqNum = Collections
         .synchronizedMap(new TreeMap<byte[], Long>(Bytes.BYTES_COMPARATOR));

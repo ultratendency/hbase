@@ -136,7 +136,7 @@ public class TestMasterShutdown {
           cluster.waitOnMaster(MASTER_INDEX);
         } catch (Exception e) {
         }
-      };
+      }
     };
     shutdownThread.start();
     LOG.info("Called master join on " + master.getName());

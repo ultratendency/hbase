@@ -295,8 +295,7 @@ public class FSHLog extends AbstractFSWAL<Writer> {
    * @see #afterCreatingZigZagLatch()
    */
   @VisibleForTesting
-  protected void beforeWaitOnSafePoint() {
-  };
+  protected void beforeWaitOnSafePoint() {}
 
   @Override
   protected void doAppend(Writer writer, FSWALEntry entry) throws IOException {

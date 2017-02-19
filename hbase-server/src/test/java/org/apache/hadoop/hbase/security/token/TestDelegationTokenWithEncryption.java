@@ -62,7 +62,7 @@ public class TestDelegationTokenWithEncryption extends SecureTestCluster {
     TEST_UTIL.getConfiguration().set(RpcClientFactory.CUSTOM_RPC_CLIENT_IMPL_CONF_KEY,
         rpcImplClass.getName());
     try (Connection conn = ConnectionFactory.createConnection(TEST_UTIL.getConfiguration());
-         Table table = conn.getTable(TableName.valueOf("testtable"));) {
+         Table table = conn.getTable(TableName.valueOf("testtable"))) {
       Put p = new Put(Bytes.toBytes("row"));
       p.addColumn(Bytes.toBytes("family"),
           Bytes.toBytes("data"), Bytes.toBytes("testdata"));

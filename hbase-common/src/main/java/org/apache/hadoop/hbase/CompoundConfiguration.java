@@ -420,4 +420,4 @@ public class CompoundConfiguration extends Configuration {
   public void writeXml(OutputStream out) throws IOException {
     throw new UnsupportedOperationException("Immutable Configuration");
   }
-};
+}

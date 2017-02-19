@@ -301,7 +301,7 @@ public class TestMobStoreScanner {
     long ts1 = System.currentTimeMillis();
     long ts2 = ts1 + 1;
     long ts3 = ts1 + 2;
-    byte [] value = generateMobValue((int)defaultThreshold+1);;
+    byte [] value = generateMobValue((int)defaultThreshold+1);
 
     Put put1 = new Put(row1);
     put1.addColumn(family, qf1, ts3, value);
@@ -384,7 +384,7 @@ public class TestMobStoreScanner {
     long ts1 = System.currentTimeMillis();
     long ts2 = ts1 + 1;
     long ts3 = ts1 + 2;
-    byte [] value = generateMobValue((int)defaultThreshold+1);;
+    byte [] value = generateMobValue((int)defaultThreshold+1);
     // Put some data
     Put put1 = new Put(row1);
     put1.addColumn(family, qf1, ts3, value);

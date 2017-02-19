@@ -2742,8 +2742,7 @@ public class HBaseFsck extends Configured implements Closeable {
       handler.handleOverlapGroup(overlapgroup);
       return null;
     }
-  };
-
+  }
 
   /**
    * Maintain information about a particular table.
@@ -2901,7 +2900,7 @@ public class HBaseFsck extends Configured implements Closeable {
                 + ".  You need to create a new .regioninfo and region "
                 + "dir in hdfs to plug the hole.");
       }
-    };
+    }
 
     /**
      * This handler fixes integrity errors from hdfs information.  There are
@@ -4266,7 +4265,7 @@ public class HBaseFsck extends Configured implements Closeable {
           } catch (ExecutionException e) {
             LOG.error("Unexpected exec exception!  Should've been caught already.  (Bug?)", e);
             // Shouldn't happen, we already logged/caught any exceptions in the Runnable
-          };
+          }
         }
       } catch (IOException e) {
         LOG.error("Cannot execute WorkItemHdfsDir for " + tableDir, e);
@@ -4326,7 +4325,7 @@ public class HBaseFsck extends Configured implements Closeable {
       }
       return null;
     }
-  };
+  }
 
   /**
    * Display the full report from fsck. This displays all live and dead region
@@ -4685,8 +4684,7 @@ public class HBaseFsck extends Configured implements Closeable {
       hbck.close();
       return hbck.getRetCode();
     }
-  };
-
+  }
 
   public HBaseFsck exec(ExecutorService exec, String[] args) throws KeeperException, IOException,
     ServiceException, InterruptedException {

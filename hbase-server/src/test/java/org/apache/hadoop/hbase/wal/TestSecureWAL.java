@@ -71,7 +71,7 @@ public class TestSecureWAL {
   static {
     ((Log4JLogger)LogFactory.getLog("org.apache.hadoop.hbase.regionserver.wal"))
       .getLogger().setLevel(Level.ALL);
-  };
+  }
   static final HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
 
   @Rule

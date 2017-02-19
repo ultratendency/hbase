@@ -3007,7 +3007,7 @@ public class RSRpcServices implements HBaseRPCErrorHandler,
     } catch (IOException e) {
       addScannerLeaseBack(lease);
       throw new ServiceException(e);
-    };
+    }
     try {
       checkScanNextCallSeq(request, rsh);
     } catch (OutOfOrderScannerNextException e) {

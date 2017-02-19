@@ -992,7 +992,7 @@ public class TestAccessController extends SecureTestUtil {
         Increment inc = new Increment(TEST_ROW);
         inc.addColumn(TEST_FAMILY, TEST_QUALIFIER, 1);
         try(Connection conn = ConnectionFactory.createConnection(conf);
-            Table t = conn.getTable(TEST_TABLE);) {
+            Table t = conn.getTable(TEST_TABLE)) {
           t.increment(inc);
         }
         return null;
@@ -1010,7 +1010,7 @@ public class TestAccessController extends SecureTestUtil {
         Delete d = new Delete(TEST_ROW);
         d.addFamily(TEST_FAMILY);
         try(Connection conn = ConnectionFactory.createConnection(conf);
-            Table t = conn.getTable(TEST_TABLE);) {
+            Table t = conn.getTable(TEST_TABLE)) {
           t.checkAndDelete(TEST_ROW, TEST_FAMILY, TEST_QUALIFIER,
               Bytes.toBytes("test_value"), d);
         }
@@ -1026,7 +1026,7 @@ public class TestAccessController extends SecureTestUtil {
         Put p = new Put(TEST_ROW);
         p.addColumn(TEST_FAMILY, TEST_QUALIFIER, Bytes.toBytes(1));
         try(Connection conn = ConnectionFactory.createConnection(conf);
-            Table t = conn.getTable(TEST_TABLE);) {
+            Table t = conn.getTable(TEST_TABLE)) {
           t.checkAndPut(TEST_ROW, TEST_FAMILY, TEST_QUALIFIER,
               Bytes.toBytes("test_value"), p);
         }
@@ -1230,7 +1230,7 @@ public class TestAccessController extends SecureTestUtil {
       @Override
       public Object run() throws Exception {
         try(Connection conn = ConnectionFactory.createConnection(conf);
-            Table acl = conn.getTable(AccessControlLists.ACL_TABLE_NAME);) {
+            Table acl = conn.getTable(AccessControlLists.ACL_TABLE_NAME)) {
           BlockingRpcChannel service = acl.coprocessorService(HConstants.EMPTY_START_ROW);
           AccessControlService.BlockingInterface protocol =
             AccessControlService.newBlockingStub(service);
@@ -1295,7 +1295,7 @@ public class TestAccessController extends SecureTestUtil {
           p.addColumn(family2, qualifier, Bytes.toBytes("v2"));
 
           try (Connection conn = ConnectionFactory.createConnection(conf);
-              Table t = conn.getTable(tableName);) {
+              Table t = conn.getTable(tableName)) {
             t.put(p);
           }
           return null;
@@ -1322,7 +1322,7 @@ public class TestAccessController extends SecureTestUtil {
           Put p = new Put(Bytes.toBytes("a"));
           p.addColumn(family2, qualifier, Bytes.toBytes("v2"));
           try (Connection conn = ConnectionFactory.createConnection(conf);
-              Table t = conn.getTable(tableName);) {
+              Table t = conn.getTable(tableName)) {
             t.put(p);
           }
           return null;
@@ -1336,7 +1336,7 @@ public class TestAccessController extends SecureTestUtil {
           g.addFamily(family1);
           g.addFamily(family2);
           try (Connection conn = ConnectionFactory.createConnection(conf);
-              Table t = conn.getTable(tableName);) {
+              Table t = conn.getTable(tableName)) {
             t.get(g);
           }
           return null;
@@ -2214,7 +2214,7 @@ public class TestAccessController extends SecureTestUtil {
         @Override
         public Object run() throws Exception {
           try (Connection conn = ConnectionFactory.createConnection(TEST_UTIL.getConfiguration());
-              Admin admin = conn.getAdmin();) {
+              Admin admin = conn.getAdmin()) {
             return admin.getTableDescriptor(TEST_TABLE);
           }
         }
@@ -2303,7 +2303,7 @@ public class TestAccessController extends SecureTestUtil {
       @Override
       public Object run() throws Exception {
         try(Connection conn = ConnectionFactory.createConnection(conf);
-            Table t = conn.getTable(TEST_TABLE);) {
+            Table t = conn.getTable(TEST_TABLE)) {
           return t.get(new Get(TEST_ROW));
         }
       }
@@ -2329,7 +2329,7 @@ public class TestAccessController extends SecureTestUtil {
       @Override
       public Object run() throws Exception {
         try(Connection conn = ConnectionFactory.createConnection(conf);
-            Table t = conn.getTable(TEST_TABLE);) {
+            Table t = conn.getTable(TEST_TABLE)) {
           return t.get(new Get(TEST_ROW));
         }
       }
@@ -2412,7 +2412,7 @@ public class TestAccessController extends SecureTestUtil {
       @Override
       public Object run() throws Exception {
         try(Connection conn = ConnectionFactory.createConnection(conf);
-            Table t = conn.getTable(TEST_TABLE);) {
+            Table t = conn.getTable(TEST_TABLE)) {
           return t.get(new Get(TEST_ROW));
         }
       }
@@ -2520,7 +2520,7 @@ public class TestAccessController extends SecureTestUtil {
         @Override
         public Object run() throws Exception {
           try (Connection conn = ConnectionFactory.createConnection(conf);
-              Table t = conn.getTable(TEST_TABLE);) {
+              Table t = conn.getTable(TEST_TABLE)) {
             BlockingRpcChannel service = t.coprocessorService(HConstants.EMPTY_BYTE_ARRAY);
             PingCoprocessor.newBlockingStub(service).noop(null, NoopRequest.newBuilder().build());
           }
@@ -2678,7 +2678,7 @@ public class TestAccessController extends SecureTestUtil {
     return new PrivilegedAction<List<UserPermission>>() {
       @Override
       public List<UserPermission> run() {
-        try(Connection conn = ConnectionFactory.createConnection(conf);) {
+        try(Connection conn = ConnectionFactory.createConnection(conf)) {
           return AccessControlClient.getUserPermissions(conn, regex);
         } catch (Throwable e) {
           LOG.error("error during call of AccessControlClient.getUserPermissions.", e);

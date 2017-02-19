@@ -75,7 +75,7 @@ public class TestWALReaderOnSecureWAL {
   static {
     ((Log4JLogger)LogFactory.getLog("org.apache.hadoop.hbase.regionserver.wal"))
       .getLogger().setLevel(Level.ALL);
-  };
+  }
   static final HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
   final byte[] value = Bytes.toBytes("Test value");
 

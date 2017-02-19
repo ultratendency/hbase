@@ -24,5 +24,5 @@ import org.apache.hadoop.hbase.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 public enum ColumnNodeType {
-  FAMILY, QUALIFIER, TAGS;
+  FAMILY, QUALIFIER, TAGS
 }

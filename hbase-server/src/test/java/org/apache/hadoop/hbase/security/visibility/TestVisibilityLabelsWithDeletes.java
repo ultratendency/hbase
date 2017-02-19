@@ -155,7 +155,7 @@ public class TestVisibilityLabelsWithDeletes {
     setAuths();
     final TableName tableName = TableName.valueOf(TEST_NAME.getMethodName());
     try (Table table = createTableAndWriteDataWithLabels(tableName, SECRET,
-        CONFIDENTIAL + "|" + TOPSECRET);) {
+        CONFIDENTIAL + "|" + TOPSECRET)) {
       PrivilegedExceptionAction<Void> actiona = new PrivilegedExceptionAction<Void>() {
         @Override
         public Void run() throws Exception {
@@ -231,7 +231,7 @@ public class TestVisibilityLabelsWithDeletes {
     final TableName tableName = TableName.valueOf(TEST_NAME.getMethodName());
     long[] ts = new long[] { 123l, 125l };
     try (Table table = createTableAndWriteDataWithLabels(tableName, ts,
-        CONFIDENTIAL + "|" + TOPSECRET, SECRET);) {
+        CONFIDENTIAL + "|" + TOPSECRET, SECRET)) {
       PrivilegedExceptionAction<Void> actiona = new PrivilegedExceptionAction<Void>() {
         @Override
         public Void run() throws Exception {
@@ -2078,7 +2078,7 @@ public class TestVisibilityLabelsWithDeletes {
     };
     VisibilityLabelsResponse response = SUPERUSER.runAs(action);
     final TableName tableName = TableName.valueOf(TEST_NAME.getMethodName());
-    try (Table table = doPuts(tableName);) {
+    try (Table table = doPuts(tableName)) {
       PrivilegedExceptionAction<Void> actiona = new PrivilegedExceptionAction<Void>() {
         @Override
         public Void run() throws Exception {

@@ -92,7 +92,7 @@ public final class HConstants {
     SUCCESS,
     BAD_FAMILY,
     SANITY_CHECK_FAILURE,
-    FAILURE;
+    FAILURE
   }
 
   /** long constant for zero */

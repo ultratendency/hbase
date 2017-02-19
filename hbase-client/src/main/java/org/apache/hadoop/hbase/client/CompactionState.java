@@ -25,5 +25,5 @@ import org.apache.hadoop.hbase.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public enum CompactionState {
-  NONE, MINOR, MAJOR, MAJOR_AND_MINOR;
+  NONE, MINOR, MAJOR, MAJOR_AND_MINOR
 }

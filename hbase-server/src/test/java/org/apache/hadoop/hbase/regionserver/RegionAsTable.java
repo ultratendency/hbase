@@ -172,7 +172,7 @@ public class RegionAsTable implements Table {
     public boolean renewLease() {
       throw new UnsupportedOperationException();
     }
-  };
+  }
 
   @Override
   public ResultScanner getScanner(Scan scan) throws IOException {
