@@ -30,8 +30,6 @@ import static org.mockito.Mockito.when;
 import com.google.common.base.Strings;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;

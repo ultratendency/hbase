@@ -42,7 +42,6 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 import static org.junit.Assert.assertEquals;
 
 @Category({ClientTests.class, MetricsTests.class, SmallTests.class})

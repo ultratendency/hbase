@@ -42,9 +42,7 @@ import org.junit.Ignore;
 import org.junit.experimental.categories.Category;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 @Category({MasterTests.class, LargeTests.class})
 public class TestStressWALProcedureStore {

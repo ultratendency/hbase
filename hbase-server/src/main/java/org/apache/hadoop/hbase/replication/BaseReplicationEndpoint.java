@@ -27,7 +27,6 @@ import org.apache.hadoop.hbase.classification.InterfaceAudience;
 import org.apache.hadoop.hbase.HBaseInterfaceAudience;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AbstractService;
-import org.apache.hadoop.hbase.zookeeper.ZooKeeperListener;
 
 /**
  * A Base implementation for {@link ReplicationEndpoint}s. Users should consider extending this

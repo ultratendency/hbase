@@ -53,7 +53,6 @@ import org.apache.hadoop.hbase.util.EnvironmentEdgeManager;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.protobuf.InvalidProtocolBufferException;
 
 /**
  * Helper class for {@link FavoredNodeLoadBalancer} that has all the intelligence for racks,

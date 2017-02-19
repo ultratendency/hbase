@@ -131,7 +131,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.TestName;
-import org.mockito.Mockito;
 
 import com.google.protobuf.BlockingRpcChannel;
 import com.google.protobuf.RpcCallback;

@@ -19,8 +19,6 @@
 package org.apache.hadoop.hbase.security.access;
 
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.PathMatcher;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;

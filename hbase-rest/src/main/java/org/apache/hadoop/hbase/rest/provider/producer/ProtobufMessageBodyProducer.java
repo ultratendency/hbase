@@ -19,7 +19,6 @@
 
 package org.apache.hadoop.hbase.rest.provider.producer;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
