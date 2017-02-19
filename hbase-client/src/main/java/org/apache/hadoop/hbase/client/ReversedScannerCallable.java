@@ -19,7 +19,6 @@
 package org.apache.hadoop.hbase.client;
 
 import static org.apache.hadoop.hbase.client.ConnectionUtils.*;
-import static org.apache.hadoop.hbase.client.ConnectionUtils.isEmptyStartRow;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;

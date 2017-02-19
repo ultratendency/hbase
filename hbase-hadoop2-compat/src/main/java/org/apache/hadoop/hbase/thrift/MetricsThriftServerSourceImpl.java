@@ -19,7 +19,6 @@
 package org.apache.hadoop.hbase.thrift;
 
 import org.apache.hadoop.hbase.classification.InterfaceAudience;
-import org.apache.hadoop.hbase.metrics.BaseSourceImpl;
 import org.apache.hadoop.hbase.metrics.ExceptionTrackingSourceImpl;
 import org.apache.hadoop.metrics2.MetricHistogram;
 import org.apache.hadoop.metrics2.lib.MutableFastCounter;

@@ -17,7 +17,6 @@
  */
 package org.apache.hadoop.hbase.rsgroup;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;

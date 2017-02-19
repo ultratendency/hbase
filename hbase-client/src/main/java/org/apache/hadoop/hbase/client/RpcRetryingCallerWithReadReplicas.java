@@ -17,7 +17,6 @@
  */
 package org.apache.hadoop.hbase.client;
 
-
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.util.Collections;
@@ -27,7 +26,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +42,6 @@ import org.apache.hadoop.hbase.shaded.protobuf.ProtobufUtil;
 import org.apache.hadoop.hbase.shaded.protobuf.RequestConverter;
 import org.apache.hadoop.hbase.shaded.protobuf.generated.ClientProtos;
 import org.apache.hadoop.hbase.util.EnvironmentEdgeManager;
-
 
 /**
  * Caller that goes to replica if the primary region does no answer within a configurable

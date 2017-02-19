@@ -45,7 +45,6 @@ import org.apache.hadoop.hbase.DoNotRetryIOException;
 import org.apache.hadoop.hbase.HBaseInterfaceAudience;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.HTableWrapper;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.CoprocessorClassLoader;
