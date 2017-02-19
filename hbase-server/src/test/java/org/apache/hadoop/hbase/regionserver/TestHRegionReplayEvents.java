@@ -298,7 +298,7 @@ public class TestHRegionReplayEvents {
     put.setDurability(Durability.SKIP_WAL);
     MutationReplay mutation = new MutationReplay(MutationType.PUT, put, 0, 0);
     region.batchReplay(new MutationReplay[] {mutation},
-      entry.getKey().getLogSeqNum());
+      entry.getKey().getSequenceId());
     return Integer.parseInt(Bytes.toString(put.getRow()));
   }
 
@@ -1234,7 +1234,7 @@ public class TestHRegionReplayEvents {
       }
       FlushDescriptor flush = WALEdit.getFlushDescriptor(entry.getEdit().getCells().get(0));
       if (flush != null) {
-        secondaryRegion.replayWALFlushMarker(flush, entry.getKey().getLogSeqNum());
+        secondaryRegion.replayWALFlushMarker(flush, entry.getKey().getSequenceId());
       }
     }
 
@@ -1274,7 +1274,7 @@ public class TestHRegionReplayEvents {
       }
       FlushDescriptor flush = WALEdit.getFlushDescriptor(entry.getEdit().getCells().get(0));
       if (flush != null) {
-        secondaryRegion.replayWALFlushMarker(flush, entry.getKey().getLogSeqNum());
+        secondaryRegion.replayWALFlushMarker(flush, entry.getKey().getSequenceId());
       } else {
         replayEdit(secondaryRegion, entry);
       }
@@ -1308,7 +1308,7 @@ public class TestHRegionReplayEvents {
       }
       FlushDescriptor flush = WALEdit.getFlushDescriptor(entry.getEdit().getCells().get(0));
       if (flush != null) {
-        secondaryRegion.replayWALFlushMarker(flush, entry.getKey().getLogSeqNum());
+        secondaryRegion.replayWALFlushMarker(flush, entry.getKey().getSequenceId());
       }
     }
 

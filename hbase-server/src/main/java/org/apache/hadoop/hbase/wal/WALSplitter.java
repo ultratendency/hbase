@@ -1870,7 +1870,7 @@ public class WALSplitter {
           cachedLastFlushedSequenceId =
               lastFlushedSequenceIds.get(loc.getRegionInfo().getEncodedName());
           if (cachedLastFlushedSequenceId != null
-              && cachedLastFlushedSequenceId >= entry.getKey().getLogSeqNum()) {
+              && cachedLastFlushedSequenceId >= entry.getKey().getSequenceId()) {
             // skip the whole WAL entry
             this.skippedEdits.incrementAndGet();
             needSkip = true;

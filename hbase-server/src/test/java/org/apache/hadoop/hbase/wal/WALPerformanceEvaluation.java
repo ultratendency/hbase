@@ -429,7 +429,7 @@ public final class WALPerformanceEvaluation extends Configured implements Tool {
           break;
         }
         count++;
-        long seqid = e.getKey().getLogSeqNum();
+        long seqid = e.getKey().getSequenceId();
         if (sequenceIds.containsKey(Bytes.toString(e.getKey().getEncodedRegionName()))) {
           // sequenceIds should be increasing for every regions
           if (sequenceIds.get(Bytes.toString(e.getKey().getEncodedRegionName())) >= seqid) {

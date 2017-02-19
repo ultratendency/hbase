@@ -116,7 +116,7 @@ public class ReplicationProtbufUtil {
             ? key.getEncodedRegionName()
             : encodedRegionName));
       keyBuilder.setTableName(UnsafeByteOperations.unsafeWrap(key.getTablename().getName()));
-      keyBuilder.setLogSequenceNumber(key.getLogSeqNum());
+      keyBuilder.setLogSequenceNumber(key.getSequenceId());
       keyBuilder.setWriteTime(key.getWriteTime());
       if (key.getNonce() != HConstants.NO_NONCE) {
         keyBuilder.setNonce(key.getNonce());
