@@ -202,10 +202,9 @@ Set it in the `Configuration` supplied to `Table`:
 Configuration conf = HBaseConfiguration.create();
 Connection connection = ConnectionFactory.createConnection(conf);
 conf.set("hbase.rpc.protection", "privacy");
-try (Connection connection = ConnectionFactory.createConnection(conf)) {
-  try (Table table = connection.getTable(TableName.valueOf(tablename)) {
+try (Connection connection = ConnectionFactory.createConnection(conf);
+     Table table = connection.getTable(TableName.valueOf(tablename))) {
   .... do your stuff
-  }
 }
 ----
 
@@ -1016,19 +1015,18 @@ public static void grantOnTable(final HBaseTestingUtility util, final String use
     public Void call() throws Exception {
       Configuration conf = HBaseConfiguration.create();
       Connection connection = ConnectionFactory.createConnection(conf);
-      try (Connection connection = ConnectionFactory.createConnection(conf)) {
-        try (Table table = connection.getTable(TableName.valueOf(tablename)) {
-          AccessControlLists.ACL_TABLE_NAME);
-          try {
-            BlockingRpcChannel service = acl.coprocessorService(HConstants.EMPTY_START_ROW);
-            AccessControlService.BlockingInterface protocol =
-                AccessControlService.newBlockingStub(service);
-            ProtobufUtil.grant(protocol, user, table, family, qualifier, actions);
-          } finally {
-            acl.close();
-          }
-          return null;
+      try (Connection connection = ConnectionFactory.createConnection(conf);
+           Table table = connection.getTable(TableName.valueOf(tablename))) {
+        AccessControlLists.ACL_TABLE_NAME);
+        try {
+          BlockingRpcChannel service = acl.coprocessorService(HConstants.EMPTY_START_ROW);
+          AccessControlService.BlockingInterface protocol =
+              AccessControlService.newBlockingStub(service);
+          ProtobufUtil.grant(protocol, user, table, family, qualifier, actions);
+        } finally {
+          acl.close();
         }
+        return null;
       }
     }
   }
