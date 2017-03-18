@@ -88,23 +88,9 @@ public class Increment extends Mutation implements Comparable<Row> {
     }
   }
 
-  /**
-   * Add the specified KeyValue to this operation.
-   * @param cell individual Cell
-   * @return this
-   * @throws java.io.IOException e
-   */
-  public Increment add(Cell cell) throws IOException{
-    byte [] family = CellUtil.cloneFamily(cell);
-    List<Cell> list = getCellList(family);
-    //Checking that the row of the kv is the same as the put
-    if (!CellUtil.matchingRow(cell, this.row)) {
-      throw new WrongRowIOException("The row in " + cell +
-        " doesn't match the original one " +  Bytes.toStringBinary(this.row));
-    }
-    list.add(cell);
-    familyMap.put(family, list);
-    return this;
+  @Override
+  public Increment add(Cell cell) throws IOException {
+    return (Increment) super.add(cell);
   }
 
   /**

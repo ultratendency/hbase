@@ -17,6 +17,7 @@
  */
 package org.apache.hadoop.hbase.client;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,8 @@ import java.util.UUID;
 
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
-import org.apache.hadoop.hbase.KeyValue;
+import org.apache.hadoop.hbase.HConstants;
+import org.apache.hadoop.hbase.Tag;
 import org.apache.hadoop.hbase.classification.InterfaceAudience;
 import org.apache.hadoop.hbase.classification.InterfaceStability;
 import org.apache.hadoop.hbase.security.access.Permission;
@@ -42,11 +44,11 @@ import org.apache.hadoop.hbase.util.Bytes;
  * <p>
  * To append to a set of columns of a row, instantiate an Append object with the
  * row to append to. At least one column to append must be specified using the
- * {@link #add(byte[], byte[], byte[])} method.
+ * {@link #addColumn(byte[], byte[], byte[])} method.
  */
 @InterfaceAudience.Public
 @InterfaceStability.Stable
-public class Append extends Mutation {
+public class Append extends AddMutation {
   /**
    * @param returnResults
    *          True (default) if the append operation should return the results.
@@ -75,6 +77,43 @@ public class Append extends Mutation {
   public Append(byte[] row) {
     this(row, 0, row.length);
   }
+
+  /**
+   * Create an Append operation for an immutable row key.
+   *
+   * @param row the row key
+   * @param rowIsImmutable whether the input row is immutable. Set to true if the caller can
+   *                       guarantee that the row will not be changed for the Append duration.
+   */
+  public Append(byte[] row, boolean rowIsImmutable) {
+    this(row, HConstants.LATEST_TIMESTAMP, rowIsImmutable);
+  }
+
+  /**
+   * Create an Append operation for an immutable row key, using a given timestamp.
+   *
+   * @param row the row key
+   * @param timestamp the version timestamp
+   * @param rowIsImmutable whether the input row is immutable.
+   *                       Set to true if the caller can guarantee that
+   *                       the row will not be changed for the Put duration.
+   */
+  public Append(byte[] row, long timestamp, boolean rowIsImmutable) {
+    // Check and set timestamp
+    if (ts < 0) {
+      throw new IllegalArgumentException("Timestamp cannot be negative. ts=" + ts);
+    }
+    this.ts = timestamp;
+
+    // Deal with row according to rowIsImmutable
+    checkRow(row);
+    if (rowIsImmutable) {  // Row is immutable
+      this.row = row;  // Do not make a local copy, but point to the provided byte array directly
+    } else {  // Row is not immutable
+      this.row = Bytes.copy(row, 0, row.length);  // Make a local copy
+    }
+  }
+
   /**
    * Copy constructor
    * @param a
@@ -102,22 +141,19 @@ public class Append extends Mutation {
 
   /**
    * Add the specified column and value to this Append operation.
+   *
    * @param family family name
    * @param qualifier column qualifier
    * @param value value to append to specified column
    * @return this
+   * @deprecated since 2.0.0. Use {@link #addColumn(byte[], byte[], byte[])} instead.
    */
+  @Deprecated
   public Append add(byte [] family, byte [] qualifier, byte [] value) {
-    KeyValue kv = new KeyValue(this.row, family, qualifier, this.ts, KeyValue.Type.Put, value);
-    return add(kv);
+    return addColumn(family, qualifier, value);
   }
 
-  /**
-   * Add column and value to this Append operation.
-   * @param cell
-   * @return This instance
-   */
-  @SuppressWarnings("unchecked")
+  @Override
   public Append add(final Cell cell) {
     // Presume it is KeyValue for now.
     byte [] family = CellUtil.cloneFamily(cell);
@@ -129,6 +165,51 @@ public class Append extends Mutation {
     list.add(cell);
     this.familyMap.put(family, list);
     return this;
+  }
+
+  @Override
+  public Append addColumn(byte[] family, byte[] qualifier, byte[] value) {
+    return (Append) super.addColumn(family, qualifier, value);
+  }
+
+  @Override
+  public Append addColumn(byte[] family, byte[] qualifier, long timestamp, byte[] value) {
+    return (Append) super.addColumn(family, qualifier, timestamp, value);
+  }
+
+  @Override
+  public Append addColumn(byte[] family, ByteBuffer qualifier, long timestamp, ByteBuffer value) {
+    return (Append) super.addColumn(family, qualifier, timestamp, value);
+  }
+
+  @Override
+  public Append addImmutable(byte[] family, byte[] qualifier, byte[] value) {
+    return (Append) super.addImmutable(family, qualifier, value);
+  }
+
+  @Override
+  public Append addImmutable(byte[] family, byte[] qualifier, long timestamp, byte[] value) {
+    return (Append) super.addImmutable(family, qualifier, timestamp, value);
+  }
+
+  @Override
+  public Append addImmutable(byte[] family, byte[] qualifier, byte[] value, Tag[] tag) {
+    return (Append) super.addImmutable(family, qualifier, value, tag);
+  }
+
+  @Override
+  public Append addImmutable(byte[] family, byte[] qualifier, long timestamp, byte[] value, Tag[] tag) {
+    return (Append) super.addImmutable(family, qualifier, timestamp, value, tag);
+  }
+
+  @Override
+  public Append addImmutable(byte[] family, ByteBuffer qualifier, long timestamp, ByteBuffer value) {
+    return (Append) super.addImmutable(family, qualifier, timestamp, value);
+  }
+
+  @Override
+  public Append addImmutable(byte[] family, ByteBuffer qualifier, long timestamp, ByteBuffer value, Tag[] tag) {
+    return (Append) super.addImmutable(family, qualifier, timestamp, value, tag);
   }
 
   @Override

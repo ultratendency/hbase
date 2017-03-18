@@ -179,7 +179,6 @@ public class Delete extends Mutation implements Comparable<Row> {
     return this;
   }
 
-
   /**
    * Delete all versions of all columns of the specified family.
    * <p>
@@ -303,6 +302,11 @@ public class Delete extends Mutation implements Comparable<Row> {
     list.add(kv);
     familyMap.put(family, list);
     return this;
+  }
+
+  @Override
+  public Delete add(Cell kv) throws IOException {
+    throw new UnsupportedOperationException("Adding a cell on Deletes is not supported");
   }
 
   /**

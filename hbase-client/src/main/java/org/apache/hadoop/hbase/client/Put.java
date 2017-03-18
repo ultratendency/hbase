@@ -29,11 +29,8 @@ import java.util.TreeMap;
 import java.util.UUID;
 
 import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.CellComparator;
 import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HConstants;
-import org.apache.hadoop.hbase.KeyValue;
-import org.apache.hadoop.hbase.IndividualBytesFieldCell;
 import org.apache.hadoop.hbase.Tag;
 import org.apache.hadoop.hbase.classification.InterfaceAudience;
 import org.apache.hadoop.hbase.classification.InterfaceStability;
@@ -52,7 +49,7 @@ import org.apache.hadoop.hbase.util.Bytes;
  */
 @InterfaceAudience.Public
 @InterfaceStability.Stable
-public class Put extends Mutation implements HeapSize, Comparable<Row> {
+public class Put extends AddMutation implements HeapSize, Comparable<Row> {
   /**
    * Create a Put operation for the specified row.
    * @param row row key
@@ -171,169 +168,53 @@ public class Put extends Mutation implements HeapSize, Comparable<Row> {
     }
   }
 
-  /**
-   * Add the specified column and value to this Put operation.
-   * @param family family name
-   * @param qualifier column qualifier
-   * @param value column value
-   * @return this
-   */
-  public Put addColumn(byte [] family, byte [] qualifier, byte [] value) {
-    return addColumn(family, qualifier, this.ts, value);
+  @Override
+  public Put addColumn(byte[] family, byte[] qualifier, byte[] value) {
+    return (Put) super.addColumn(family, qualifier, this.ts, value);
   }
 
-  /**
-   * See {@link #addColumn(byte[], byte[], byte[])}. This version expects
-   * that the underlying arrays won't change. It's intended
-   * for usage internal HBase to and for advanced client applications.
-   */
-  public Put addImmutable(byte [] family, byte [] qualifier, byte [] value) {
-    return addImmutable(family, qualifier, this.ts, value);
+  public Put addColumn(byte[] family, byte[] qualifier, long timestamp, byte[] value) {
+    return (Put) super.addColumn(family, qualifier, timestamp, value);
   }
 
-  /**
-   * This expects that the underlying arrays won't change. It's intended
-   * for usage internal HBase to and for advanced client applications.
-   * <p>Marked as audience Private as of 1.2.0. {@link Tag} is an internal implementation detail
-   * that should not be exposed publicly.
-   */
-  @InterfaceAudience.Private
-  public Put addImmutable(byte[] family, byte [] qualifier, byte [] value, Tag[] tag) {
-    return addImmutable(family, qualifier, this.ts, value, tag);
+  @Override
+  public Put addColumn(byte[] family, ByteBuffer qualifier, long timestamp, ByteBuffer value) {
+    return (Put) super.addColumn(family, qualifier, timestamp, value);
   }
 
-  /**
-   * Add the specified column and value, with the specified timestamp as
-   * its version to this Put operation.
-   * @param family family name
-   * @param qualifier column qualifier
-   * @param ts version timestamp
-   * @param value column value
-   * @return this
-   */
-  public Put addColumn(byte [] family, byte [] qualifier, long ts, byte [] value) {
-    if (ts < 0) {
-      throw new IllegalArgumentException("Timestamp cannot be negative. ts=" + ts);
-    }
-    List<Cell> list = getCellList(family);
-    KeyValue kv = createPutKeyValue(family, qualifier, ts, value);
-    list.add(kv);
-    familyMap.put(CellUtil.cloneFamily(kv), list);
-    return this;
+  @Override
+  public Put addImmutable(byte[] family, byte[] qualifier, byte[] value) {
+    return (Put) super.addImmutable(family, qualifier, this.ts, value);
   }
 
-  /**
-   * See {@link #addColumn(byte[], byte[], long, byte[])}. This version expects
-   * that the underlying arrays won't change. It's intended
-   * for usage internal HBase to and for advanced client applications.
-   */
-  public Put addImmutable(byte [] family, byte [] qualifier, long ts, byte [] value) {
-    // Family can not be null, otherwise NullPointerException is thrown when putting the cell into familyMap
-    if (family == null) {
-      throw new IllegalArgumentException("Family cannot be null");
-    }
-
-    // Check timestamp
-    if (ts < 0) {
-      throw new IllegalArgumentException("Timestamp cannot be negative. ts=" + ts);
-    }
-
-    List<Cell> list = getCellList(family);
-    list.add(new IndividualBytesFieldCell(this.row, family, qualifier, ts, KeyValue.Type.Put, value));
-    familyMap.put(family, list);
-    return this;
+  @Override
+  public Put addImmutable(byte[] family, byte[] qualifier, byte[] value, Tag[] tag) {
+    return (Put) super.addImmutable(family, qualifier, this.ts, value, tag);
   }
 
-  /**
-   * This expects that the underlying arrays won't change. It's intended
-   * for usage internal HBase to and for advanced client applications.
-   * <p>Marked as audience Private as of 1.2.0. {@link Tag} is an internal implementation detail
-   * that should not be exposed publicly.
-   */
-  @InterfaceAudience.Private
-  public Put addImmutable(byte[] family, byte[] qualifier, long ts, byte[] value, Tag[] tag) {
-    List<Cell> list = getCellList(family);
-    KeyValue kv = createPutKeyValue(family, qualifier, ts, value, tag);
-    list.add(kv);
-    familyMap.put(family, list);
-    return this;
+  @Override
+  public Put addImmutable(byte[] family, byte[] qualifier, long timestamp, byte[] value) {
+    return (Put) super.addImmutable(family, qualifier, timestamp, value);
   }
 
-  /**
-   * This expects that the underlying arrays won't change. It's intended
-   * for usage internal HBase to and for advanced client applications.
-   * <p>Marked as audience Private as of 1.2.0. {@link Tag} is an internal implementation detail
-   * that should not be exposed publicly.
-   */
-  @InterfaceAudience.Private
-  public Put addImmutable(byte[] family, ByteBuffer qualifier, long ts, ByteBuffer value,
-                          Tag[] tag) {
-    if (ts < 0) {
-      throw new IllegalArgumentException("Timestamp cannot be negative. ts=" + ts);
-    }
-    List<Cell> list = getCellList(family);
-    KeyValue kv = createPutKeyValue(family, qualifier, ts, value, tag);
-    list.add(kv);
-    familyMap.put(family, list);
-    return this;
+  @Override
+  public Put addImmutable(byte[] family, byte[] qualifier, long timestamp, byte[] value, Tag[] tag) {
+    return (Put) super.addImmutable(family, qualifier, timestamp, value, tag);
   }
 
-
-  /**
-   * Add the specified column and value, with the specified timestamp as
-   * its version to this Put operation.
-   * @param family family name
-   * @param qualifier column qualifier
-   * @param ts version timestamp
-   * @param value column value
-   * @return this
-   */
-  public Put addColumn(byte[] family, ByteBuffer qualifier, long ts, ByteBuffer value) {
-    if (ts < 0) {
-      throw new IllegalArgumentException("Timestamp cannot be negative. ts=" + ts);
-    }
-    List<Cell> list = getCellList(family);
-    KeyValue kv = createPutKeyValue(family, qualifier, ts, value, null);
-    list.add(kv);
-    familyMap.put(CellUtil.cloneFamily(kv), list);
-    return this;
+  @Override
+  public Put addImmutable(byte[] family, ByteBuffer qualifier, long timestamp, ByteBuffer value, Tag[] tag) {
+    return (Put) super.addImmutable(family, qualifier, timestamp, value, tag);
   }
 
-  /**
-   * See {@link #addColumn(byte[], ByteBuffer, long, ByteBuffer)}. This version expects
-   * that the underlying arrays won't change. It's intended
-   * for usage internal HBase to and for advanced client applications.
-   */
-  public Put addImmutable(byte[] family, ByteBuffer qualifier, long ts, ByteBuffer value) {
-    if (ts < 0) {
-      throw new IllegalArgumentException("Timestamp cannot be negative. ts=" + ts);
-    }
-    List<Cell> list = getCellList(family);
-    KeyValue kv = createPutKeyValue(family, qualifier, ts, value, null);
-    list.add(kv);
-    familyMap.put(family, list);
-    return this;
+  @Override
+  public Put addImmutable(byte[] family, ByteBuffer qualifier, long timestamp, ByteBuffer value) {
+    return (Put) super.addImmutable(family, qualifier, timestamp, value);
   }
 
-  /**
-   * Add the specified KeyValue to this Put operation.  Operation assumes that
-   * the passed KeyValue is immutable and its backing array will not be modified
-   * for the duration of this Put.
-   * @param kv individual KeyValue
-   * @return this
-   * @throws java.io.IOException e
-   */
-  public Put add(Cell kv) throws IOException{
-    byte [] family = CellUtil.cloneFamily(kv);
-    List<Cell> list = getCellList(family);
-    //Checking that the row of the kv is the same as the put
-    if (!CellUtil.matchingRow(kv, this.row)) {
-      throw new WrongRowIOException("The row in " + kv.toString() +
-        " doesn't match the original one " +  Bytes.toStringBinary(this.row));
-    }
-    list.add(kv);
-    familyMap.put(family, list);
-    return this;
+  @Override
+  public Put add(Cell kv) throws IOException {
+    return (Put) super.add(kv);
   }
 
   /**

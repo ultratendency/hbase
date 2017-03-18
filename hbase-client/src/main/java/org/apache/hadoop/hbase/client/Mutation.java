@@ -498,6 +498,30 @@ public abstract class Mutation extends OperationWithAttributes implements Row, C
   }
 
   /**
+   * Add the specified KeyValue to this operation. Operation assumes that the passed KeyValue
+   * is immutable and its backing array will not be modified for the duration of this operation.
+   *
+   * @param kv individual KeyValue
+   * @return this
+   * @throws IOException if the give row doesn't match the original one
+   */
+  public Mutation add(Cell kv) throws IOException {
+    byte [] family = CellUtil.cloneFamily(kv);
+    List<Cell> list = getCellList(family);
+
+    //Checking that the row of the kv is the same as the put
+    if (!CellUtil.matchingRow(kv, this.row)) {
+      throw new WrongRowIOException("The row in " + kv.toString() +
+              " doesn't match the original one " +  Bytes.toStringBinary(this.row));
+    }
+
+    list.add(kv);
+    familyMap.put(family, list);
+
+    return this;
+  }
+
+  /**
    * @return current value for returnResults
    */
   // Used by Increment and Append only.

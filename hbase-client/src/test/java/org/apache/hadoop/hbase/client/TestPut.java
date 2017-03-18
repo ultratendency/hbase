@@ -19,6 +19,9 @@
 
 package org.apache.hadoop.hbase.client;
 
+import org.apache.hadoop.hbase.ArrayBackedTag;
+import org.apache.hadoop.hbase.CellUtil;
+import org.apache.hadoop.hbase.Tag;
 import org.apache.hadoop.hbase.testclassification.ClientTests;
 import org.apache.hadoop.hbase.testclassification.SmallTests;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -26,6 +29,9 @@ import org.apache.hadoop.hbase.Cell;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import java.nio.ByteBuffer;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -47,7 +53,6 @@ public class TestPut {
 
     //They should have different cell lists
     assertNotEquals(origin.getCellList(family), clone.getCellList(family));
-
   }
 
   // HBASE-14881
@@ -102,5 +107,147 @@ public class TestPut {
 
     // Verify timestamp
     assertTrue(cell1.getTimestamp()      == ts1);
+  }
+
+  @Test
+  public void testAddColumn() {
+    Put put = new Put(Bytes.toBytes("row"));
+    byte[] family = Bytes.toBytes("family");
+    byte[] qualifier = Bytes.toBytes("qualifier");
+    byte[] value = Bytes.toBytes("value");
+
+    Put result = put.addColumn(family, qualifier, value);
+
+    assertEquals(1, result.familyMap.size());
+    assertTrue(result.has(family, qualifier, value));
+  }
+
+  @Test
+  public void testAddColumnWithTimestamp() {
+    Put put = new Put(Bytes.toBytes("row"));
+    byte[] family = Bytes.toBytes("family");
+    byte[] qualifier = Bytes.toBytes("qualifier");
+    byte[] value = Bytes.toBytes("value");
+    long timestamp = System.currentTimeMillis();
+
+    Put result = put.addColumn(family, qualifier, timestamp, value);
+
+    assertEquals(1, result.familyMap.size());
+    assertTrue(result.has(family, qualifier, timestamp, value));
+  }
+
+  @Test
+  public void testAddColumnByteBuffer() {
+    Put put = new Put(Bytes.toBytes("row"));
+    byte[] family = Bytes.toBytes("family");
+    ByteBuffer qualifier = ByteBuffer.wrap(Bytes.toBytes("qualifier"));
+    long timestamp = System.currentTimeMillis();
+    ByteBuffer value = ByteBuffer.wrap(Bytes.toBytes("value"));
+
+    Put result = put.addColumn(family, qualifier, timestamp, value);
+
+    assertEquals(1, result.familyMap.size());
+    assertTrue(result.has(family, Bytes.toBytes("qualifier"), timestamp, Bytes.toBytes("value")));
+  }
+
+  @Test
+  public void testAddImmutableWithTag() {
+    Put put = new Put(Bytes.toBytes("immutable-row"), true);
+    byte[] family = Bytes.toBytes("immutable-family");
+    byte[] qualifier = Bytes.toBytes("immutable-qualifier");
+    byte[] value = Bytes.toBytes("immutable-value");
+    Tag[] tags = new Tag[] { new ArrayBackedTag((byte) 1, "immutable-tag-1") };
+
+    Put result = put.addImmutable(family, qualifier, value, tags);
+
+    assertEquals(1, result.familyMap.size());
+    assertTrue(result.has(family, qualifier, value));
+
+    Cell cell = result.get(family, qualifier).get(0);
+
+    assertEquals(family, cell.getFamilyArray());
+    assertEquals(qualifier, cell.getQualifierArray());
+    assertEquals(value, cell.getValueArray());
+    assertEquals(put.getTimeStamp(), cell.getTimestamp());
+
+    List<Tag> cellTags = CellUtil.getTags(cell);
+
+    assertEquals(1, cellTags.size());
+    assertEquals((byte) 1, cellTags.get(0).getType());
+  }
+
+  @Test
+  public void testAddImmutableWithTimestampAndTag() {
+    Put put = new Put(Bytes.toBytes("row"), true);
+    byte[] family = Bytes.toBytes("family");
+    byte[] qualifier = Bytes.toBytes("qualifier");
+    long timestamp = System.currentTimeMillis();
+    byte[] value = Bytes.toBytes("value");
+    Tag[] tags = new Tag[] { new ArrayBackedTag((byte) 1, "tag1") };
+
+    Put result = put.addImmutable(family, qualifier, timestamp, value, tags);
+
+    assertEquals(1, result.familyMap.size());
+    assertTrue(result.has(family, qualifier, value));
+
+    Cell cell = result.get(family, qualifier).get(0);
+
+    assertEquals(family, cell.getFamilyArray());
+    assertEquals(qualifier, cell.getQualifierArray());
+    assertEquals(timestamp, cell.getTimestamp());
+    assertEquals(value, cell.getValueArray());
+
+    List<Tag> cellTags = CellUtil.getTags(cell);
+
+    assertEquals(1, cellTags.size());
+    assertEquals((byte) 1, cellTags.get(0).getType());
+  }
+
+  @Test
+  public void testAddImmutableWithByteBufferTimestampAndTag() {
+    Put put = new Put(Bytes.toBytes("row"), true);
+    byte[] family = Bytes.toBytes("family");
+    ByteBuffer qualifier = ByteBuffer.wrap(Bytes.toBytes("qualifier"));
+    long timestamp = System.currentTimeMillis();
+    ByteBuffer value = ByteBuffer.wrap(Bytes.toBytes("value"));
+    Tag[] tags = new Tag[] { new ArrayBackedTag((byte) 1, "tag1") };
+
+    Put result = put.addImmutable(family, qualifier, timestamp, value, tags);
+
+    assertEquals(1, result.familyMap.size());
+    assertTrue(result.has(family, Bytes.toBytes("qualifier"), timestamp, Bytes.toBytes("value")));
+
+    Cell cell = result.get(family, Bytes.toBytes("qualifier")).get(0);
+
+    assertEquals(family, cell.getFamilyArray());
+    assertEquals(Bytes.toBytes(qualifier), cell.getQualifierArray());
+    assertEquals(timestamp, cell.getTimestamp());
+    assertEquals(Bytes.toBytes(value), cell.getValueArray());
+
+    List<Tag> cellTags = CellUtil.getTags(cell);
+
+    assertEquals(1, cellTags.size());
+    assertEquals((byte) 1, cellTags.get(0).getType());
+  }
+
+  @Test
+  public void testAddImmutableWithByteBufferAndTimestamp() {
+    Put put = new Put(Bytes.toBytes("row"), true);
+    byte[] family = Bytes.toBytes("family");
+    ByteBuffer qualifier = ByteBuffer.wrap(Bytes.toBytes("qualifier"));
+    long timestamp = System.currentTimeMillis();
+    ByteBuffer value = ByteBuffer.wrap(Bytes.toBytes("value"));
+
+    Put result = put.addImmutable(family, qualifier, timestamp, value);
+
+    assertEquals(1, result.familyMap.size());
+    assertTrue(result.has(family, Bytes.toBytes("qualifier"), timestamp, Bytes.toBytes("value")));
+
+    Cell cell = result.get(family, Bytes.toBytes("qualifier")).get(0);
+
+    assertEquals(family, cell.getFamilyArray());
+    assertEquals(Bytes.toBytes(qualifier), cell.getQualifierArray());
+    assertEquals(timestamp, cell.getTimestamp());
+    assertEquals(Bytes.toBytes(value), cell.getValueArray());
   }
 }
