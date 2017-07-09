@@ -44,7 +44,7 @@ class AsyncTableRegionLocatorImpl implements AsyncTableRegionLocator {
   }
 
   @Override
-  public CompletableFuture<HRegionLocation> getRegionLocation(byte[] row, boolean reload) {
+  public CompletableFuture<HRegionLocation> getRegionLocation(byte[] row, boolean bypassCache) {
     return locator.getRegionLocation(tableName, row, RegionLocateType.CURRENT, -1L);
   }
 }

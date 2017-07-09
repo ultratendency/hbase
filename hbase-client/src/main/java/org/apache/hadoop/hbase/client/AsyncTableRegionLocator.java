@@ -52,7 +52,8 @@ public interface AsyncTableRegionLocator {
    * <p>
    * Returns the location of the region to which the row belongs.
    * @param row Row to find.
-   * @param reload true to reload information or false to use cached information
+   * @param bypassCache true to bypass the cache and load {@link HRegionLocation} information directly from HBase or
+   *                    false to use cached information
    */
-  CompletableFuture<HRegionLocation> getRegionLocation(byte[] row, boolean reload);
+  CompletableFuture<HRegionLocation> getRegionLocation(byte[] row, boolean bypassCache);
 }
